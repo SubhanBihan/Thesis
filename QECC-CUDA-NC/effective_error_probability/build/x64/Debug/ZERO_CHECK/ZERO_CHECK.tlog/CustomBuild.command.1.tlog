@@ -1,0 +1,10 @@
+^D:\QEC_CODES\QECC-CUDA-COPY\EFFECTIVE_ERROR_PROBABILITY\BUILD\CMAKEFILES\C542900CBF37F3B50C3938EB7FE9F8AB\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/QEC_Codes/QECC-CUDA-Copy/effective_error_probability -BD:/QEC_Codes/QECC-CUDA-Copy/effective_error_probability/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/QEC_Codes/QECC-CUDA-Copy/effective_error_probability/build/MyCudaOnlyProject.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

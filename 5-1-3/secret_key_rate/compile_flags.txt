@@ -1,0 +1,5 @@
+-std=c++20
+-Iinclude
+-IC:/vcpkg/packages/boost-math_x64-windows/include
+-I../effective_error_probability/include
+-IC:/vcpkg/packages/boost-program-options_x64-windows/include

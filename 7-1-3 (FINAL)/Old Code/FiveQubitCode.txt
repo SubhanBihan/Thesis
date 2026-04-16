@@ -1,0 +1,911 @@
+// FastPauli::CArr<NUMQUBITS> FiveQubitCode::OneRoundSequential(const std::vector<double>& cArrCodeword, const double err, const double errTeleport, const FiveQubitCode::correctionMode correctionMode, const int qubitLostIndex)
+// {
+    // // Get ready |+⟩⟨+|.
+    // std::array<double, 3> cArrH1 = FiveQubitCode::getH<1>();
+
+    // // Get ready |+⟩.
+    // std::array<double, 2> ketH1P = FiveQubitCode::getKetH<1>();
+
+    // // Get ready |-⟩.
+    // std::array<double, 2> ketH1N = ketH1P;
+    // FastPauli::ketZ_r(ketH1N.data(), 1, 0);
+
+    // std::array<FastPauli::CArr<NUMQUBITS>, DIM_ANCILLA> cArrAggregate;
+    // FastPauli::CArr<NUMQUBITS> cArrCodewordtmp;
+    // std::copy(cArrCodeword, cArrCodeword + FastPauli::CArrLen<NUMQUBITS>, cArrCodewordtmp.data()); // Basically cArrCodeword is copied to cArrCodewordtmp
+
+    // // Seems like erasure correction takes 'priority' compared to arbitrary qubit-error correction, which makes sense
+    // // Permute BEFORE stabiliser operations
+    // if (correctionMode == FiveQubitCode::correctionMode::oneLoss)
+    // {
+    //     cArrCodewordtmp = FastPauli::getCycledDM<NUMQUBITS>(cArrCodewordtmp.data(), -qubitLostIndex);
+    // }
+
+    // // Initialise arrays to store 'measurement' results of each subsequent stabiliser operation.
+    // // First (leftmost) digit for result of S1 (0 means ancilla was |+⟩), and so on.
+    // // At the end of operations (below) only 1 of them can be non-zero.
+    // // THIS and subsequent stabiliser operations part has huge chance of being "MODULARISED"
+    // FastPauli::CArr<NUMQUBITS> cArr_0;
+    // FastPauli::CArr<NUMQUBITS> cArr_1;
+    // FastPauli::CArr<NUMQUBITS> cArr_00;
+    // FastPauli::CArr<NUMQUBITS> cArr_01;
+    // FastPauli::CArr<NUMQUBITS> cArr_10;
+    // FastPauli::CArr<NUMQUBITS> cArr_11;
+    // FastPauli::CArr<NUMQUBITS> cArr_000;
+    // FastPauli::CArr<NUMQUBITS> cArr_001;
+    // FastPauli::CArr<NUMQUBITS> cArr_010;
+    // FastPauli::CArr<NUMQUBITS> cArr_011;
+    // FastPauli::CArr<NUMQUBITS> cArr_100;
+    // FastPauli::CArr<NUMQUBITS> cArr_101;
+    // FastPauli::CArr<NUMQUBITS> cArr_110;
+    // FastPauli::CArr<NUMQUBITS> cArr_111;
+    // FastPauli::CArr<NUMQUBITS> cArr_0000;
+    // FastPauli::CArr<NUMQUBITS> cArr_0001;
+    // FastPauli::CArr<NUMQUBITS> cArr_0010;
+    // FastPauli::CArr<NUMQUBITS> cArr_0011;
+    // FastPauli::CArr<NUMQUBITS> cArr_0100;
+    // FastPauli::CArr<NUMQUBITS> cArr_0101;
+    // FastPauli::CArr<NUMQUBITS> cArr_0110;
+    // FastPauli::CArr<NUMQUBITS> cArr_0111;
+    // FastPauli::CArr<NUMQUBITS> cArr_1000;
+    // FastPauli::CArr<NUMQUBITS> cArr_1001;
+    // FastPauli::CArr<NUMQUBITS> cArr_1010;
+    // FastPauli::CArr<NUMQUBITS> cArr_1011;
+    // FastPauli::CArr<NUMQUBITS> cArr_1100;
+    // FastPauli::CArr<NUMQUBITS> cArr_1101;
+    // FastPauli::CArr<NUMQUBITS> cArr_1110;
+    // FastPauli::CArr<NUMQUBITS> cArr_1111;
+    // FastPauli::CArr<NUMQUBITS> cArr_00000;
+    // FastPauli::CArr<NUMQUBITS> cArr_00001;
+    // FastPauli::CArr<NUMQUBITS> cArr_00010;
+    // FastPauli::CArr<NUMQUBITS> cArr_00011;
+    // FastPauli::CArr<NUMQUBITS> cArr_00100;
+    // FastPauli::CArr<NUMQUBITS> cArr_00101;
+    // FastPauli::CArr<NUMQUBITS> cArr_00110;
+    // FastPauli::CArr<NUMQUBITS> cArr_00111;
+    // FastPauli::CArr<NUMQUBITS> cArr_01000;
+    // FastPauli::CArr<NUMQUBITS> cArr_01001;
+    // FastPauli::CArr<NUMQUBITS> cArr_01010;
+    // FastPauli::CArr<NUMQUBITS> cArr_01011;
+    // FastPauli::CArr<NUMQUBITS> cArr_01100;
+    // FastPauli::CArr<NUMQUBITS> cArr_01101;
+    // FastPauli::CArr<NUMQUBITS> cArr_01110;
+    // FastPauli::CArr<NUMQUBITS> cArr_01111;
+    // FastPauli::CArr<NUMQUBITS> cArr_10000;
+    // FastPauli::CArr<NUMQUBITS> cArr_10001;
+    // FastPauli::CArr<NUMQUBITS> cArr_10010;
+    // FastPauli::CArr<NUMQUBITS> cArr_10011;
+    // FastPauli::CArr<NUMQUBITS> cArr_10100;
+    // FastPauli::CArr<NUMQUBITS> cArr_10101;
+    // FastPauli::CArr<NUMQUBITS> cArr_10110;
+    // FastPauli::CArr<NUMQUBITS> cArr_10111;
+    // FastPauli::CArr<NUMQUBITS> cArr_11000;
+    // FastPauli::CArr<NUMQUBITS> cArr_11001;
+    // FastPauli::CArr<NUMQUBITS> cArr_11010;
+    // FastPauli::CArr<NUMQUBITS> cArr_11011;
+    // FastPauli::CArr<NUMQUBITS> cArr_11100;
+    // FastPauli::CArr<NUMQUBITS> cArr_11101;
+    // FastPauli::CArr<NUMQUBITS> cArr_11110;
+    // FastPauli::CArr<NUMQUBITS> cArr_11111;
+    // FastPauli::CArr<NUMQUBITS> cArr_000000;
+    // FastPauli::CArr<NUMQUBITS> cArr_000001;
+    // FastPauli::CArr<NUMQUBITS> cArr_000010;
+    // FastPauli::CArr<NUMQUBITS> cArr_000011;
+    // FastPauli::CArr<NUMQUBITS> cArr_000100;
+    // FastPauli::CArr<NUMQUBITS> cArr_000101;
+    // FastPauli::CArr<NUMQUBITS> cArr_000110;
+    // FastPauli::CArr<NUMQUBITS> cArr_000111;
+    // FastPauli::CArr<NUMQUBITS> cArr_001000;
+    // FastPauli::CArr<NUMQUBITS> cArr_001001;
+    // FastPauli::CArr<NUMQUBITS> cArr_001010;
+    // FastPauli::CArr<NUMQUBITS> cArr_001011;
+    // FastPauli::CArr<NUMQUBITS> cArr_001100;
+    // FastPauli::CArr<NUMQUBITS> cArr_001101;
+    // FastPauli::CArr<NUMQUBITS> cArr_001110;
+    // FastPauli::CArr<NUMQUBITS> cArr_001111;
+    // FastPauli::CArr<NUMQUBITS> cArr_010000;
+    // FastPauli::CArr<NUMQUBITS> cArr_010001;
+    // FastPauli::CArr<NUMQUBITS> cArr_010010;
+    // FastPauli::CArr<NUMQUBITS> cArr_010011;
+    // FastPauli::CArr<NUMQUBITS> cArr_010100;
+    // FastPauli::CArr<NUMQUBITS> cArr_010101;
+    // FastPauli::CArr<NUMQUBITS> cArr_010110;
+    // FastPauli::CArr<NUMQUBITS> cArr_010111;
+    // FastPauli::CArr<NUMQUBITS> cArr_011000;
+    // FastPauli::CArr<NUMQUBITS> cArr_011001;
+    // FastPauli::CArr<NUMQUBITS> cArr_011010;
+    // FastPauli::CArr<NUMQUBITS> cArr_011011;
+    // FastPauli::CArr<NUMQUBITS> cArr_011100;
+    // FastPauli::CArr<NUMQUBITS> cArr_011101;
+    // FastPauli::CArr<NUMQUBITS> cArr_011110;
+    // FastPauli::CArr<NUMQUBITS> cArr_011111;
+    // FastPauli::CArr<NUMQUBITS> cArr_100000;
+    // FastPauli::CArr<NUMQUBITS> cArr_100001;
+    // FastPauli::CArr<NUMQUBITS> cArr_100010;
+    // FastPauli::CArr<NUMQUBITS> cArr_100011;
+    // FastPauli::CArr<NUMQUBITS> cArr_100100;
+    // FastPauli::CArr<NUMQUBITS> cArr_100101;
+    // FastPauli::CArr<NUMQUBITS> cArr_100110;
+    // FastPauli::CArr<NUMQUBITS> cArr_100111;
+    // FastPauli::CArr<NUMQUBITS> cArr_101000;
+    // FastPauli::CArr<NUMQUBITS> cArr_101001;
+    // FastPauli::CArr<NUMQUBITS> cArr_101010;
+    // FastPauli::CArr<NUMQUBITS> cArr_101011;
+    // FastPauli::CArr<NUMQUBITS> cArr_101100;
+    // FastPauli::CArr<NUMQUBITS> cArr_101101;
+    // FastPauli::CArr<NUMQUBITS> cArr_101110;
+    // FastPauli::CArr<NUMQUBITS> cArr_101111;
+    // FastPauli::CArr<NUMQUBITS> cArr_110000;
+    // FastPauli::CArr<NUMQUBITS> cArr_110001;
+    // FastPauli::CArr<NUMQUBITS> cArr_110010;
+    // FastPauli::CArr<NUMQUBITS> cArr_110011;
+    // FastPauli::CArr<NUMQUBITS> cArr_110100;
+    // FastPauli::CArr<NUMQUBITS> cArr_110101;
+    // FastPauli::CArr<NUMQUBITS> cArr_110110;
+    // FastPauli::CArr<NUMQUBITS> cArr_110111;
+    // FastPauli::CArr<NUMQUBITS> cArr_111000;
+    // FastPauli::CArr<NUMQUBITS> cArr_111001;
+    // FastPauli::CArr<NUMQUBITS> cArr_111010;
+    // FastPauli::CArr<NUMQUBITS> cArr_111011;
+    // FastPauli::CArr<NUMQUBITS> cArr_111100;
+    // FastPauli::CArr<NUMQUBITS> cArr_111101;
+    // FastPauli::CArr<NUMQUBITS> cArr_111110;
+    // FastPauli::CArr<NUMQUBITS> cArr_111111;
+
+
+    // // Below operations are the same as in 2nd-overload SnSequential funcs (see explanation for S1Sequential)
+    // // ======================================Stabiliser (1)======================================
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArrCodewordtmp.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S1Sequential(cArr_Nplus1.data(), err, errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_0.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_1.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+
+    // // ======================================Stabiliser (2)======================================
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_0.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S2Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_00.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_01.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_1.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S2Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_10.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_11.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+
+    // // ======================================Stabiliser (3)======================================
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_00.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S3Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_000.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_001.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_01.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S3Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_010.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_011.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_10.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S3Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_100.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_101.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_11.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S3Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_110.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_111.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+
+    // // ======================================Stabiliser (4)======================================
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_000.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S4Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_0000.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_0001.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_001.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S4Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_0010.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_0011.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_010.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S4Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_0100.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_0101.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_011.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S4Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_0110.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_0111.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_100.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S4Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_1000.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_1001.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_101.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S4Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_1010.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_1011.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_110.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S4Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_1100.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_1101.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_111.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S4Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_1110.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_1111.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+
+    // // ======================================Stabiliser (5)======================================
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_0000.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S5Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_00000.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_00001.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_0001.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S5Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_00010.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_00011.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_0010.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S5Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_00100.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_00101.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_0011.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S5Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_00110.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_00111.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_0100.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S5Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_01000.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_01001.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_0101.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S5Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_01010.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_01011.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_0110.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S5Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_01100.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_01101.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_0111.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S5Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_01110.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_01111.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_1000.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S5Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_10000.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_10001.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_1001.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S5Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_10010.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_10011.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_1010.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S5Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_10100.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_10101.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_1011.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S5Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_10110.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_10111.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_1100.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S5Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_11000.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_11001.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_1101.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S5Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_11010.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_11011.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_1110.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S5Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_11100.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_11101.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_1111.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S5Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_11110.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_11111.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+
+    // // ======================================Stabiliser (6)======================================
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_00000.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_000000.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_000001.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_00001.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_000010.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_000011.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_00010.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_000100.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_000101.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_00011.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_000110.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_000111.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_00100.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_001000.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_001001.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_00101.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_001010.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_001011.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_00110.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_001100.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_001101.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_00111.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_001110.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_001111.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_01000.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_010000.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_010001.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_01001.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_010010.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_010011.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_01010.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_010100.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_010101.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_01011.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_010110.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_010111.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_01100.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_011000.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_011001.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_01101.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_011010.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_011011.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_01110.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_011100.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_011101.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_01111.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_011110.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_011111.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_10000.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_100000.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_100001.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_10001.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_100010.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_100011.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_10010.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_100100.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_100101.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_10011.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_100110.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_100111.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_10100.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_101000.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_101001.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_10101.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_101010.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_101011.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_10110.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_101100.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_101101.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_10111.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_101110.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_101111.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_11000.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_110000.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_110001.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_11001.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_110010.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_110011.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_11010.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_110100.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_110101.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_11011.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_110110.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_110111.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_11100.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_111000.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_111001.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_11101.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_111010.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_111011.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_11110.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_111100.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_111101.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+    // FastPauli::kron(cArr_Nplus1.data(), cArrH1.data(), cArr_11111.data(), 1, NUMQUBITS);
+    // FiveQubitCode::S6Sequential(cArr_Nplus1.data(), errTeleport);
+    // FiveQubitCode::applyAncillaKet(cArr_111110.data(), 1, NUMQUBITS, ketH1P.data(), cArr_Nplus1.data());
+    // FiveQubitCode::applyAncillaKet(cArr_111111.data(), 1, NUMQUBITS, ketH1N.data(), cArr_Nplus1.data());
+
+    // // Final results of stabiliser operations. Only one of them will be non-zero
+    // cArrAggregate[0] = cArr_000000;
+    // cArrAggregate[1] = cArr_000001;
+    // cArrAggregate[2] = cArr_000010;
+    // cArrAggregate[3] = cArr_000011;
+    // cArrAggregate[4] = cArr_000100;
+    // cArrAggregate[5] = cArr_000101;
+    // cArrAggregate[6] = cArr_000110;
+    // cArrAggregate[7] = cArr_000111;
+    // cArrAggregate[8] = cArr_001000;
+    // cArrAggregate[9] = cArr_001001;
+    // cArrAggregate[10] = cArr_001010;
+    // cArrAggregate[11] = cArr_001011;
+    // cArrAggregate[12] = cArr_001100;
+    // cArrAggregate[13] = cArr_001101;
+    // cArrAggregate[14] = cArr_001110;
+    // cArrAggregate[15] = cArr_001111;
+    // cArrAggregate[16] = cArr_010000;
+    // cArrAggregate[17] = cArr_010001;
+    // cArrAggregate[18] = cArr_010010;
+    // cArrAggregate[19] = cArr_010011;
+    // cArrAggregate[20] = cArr_010100;
+    // cArrAggregate[21] = cArr_010101;
+    // cArrAggregate[22] = cArr_010110;
+    // cArrAggregate[23] = cArr_010111;
+    // cArrAggregate[24] = cArr_011000;
+    // cArrAggregate[25] = cArr_011001;
+    // cArrAggregate[26] = cArr_011010;
+    // cArrAggregate[27] = cArr_011011;
+    // cArrAggregate[28] = cArr_011100;
+    // cArrAggregate[29] = cArr_011101;
+    // cArrAggregate[30] = cArr_011110;
+    // cArrAggregate[31] = cArr_011111;
+    // cArrAggregate[32] = cArr_100000;
+    // cArrAggregate[33] = cArr_100001;
+    // cArrAggregate[34] = cArr_100010;
+    // cArrAggregate[35] = cArr_100011;
+    // cArrAggregate[36] = cArr_100100;
+    // cArrAggregate[37] = cArr_100101;
+    // cArrAggregate[38] = cArr_100110;
+    // cArrAggregate[39] = cArr_100111;
+    // cArrAggregate[40] = cArr_101000;
+    // cArrAggregate[41] = cArr_101001;
+    // cArrAggregate[42] = cArr_101010;
+    // cArrAggregate[43] = cArr_101011;
+    // cArrAggregate[44] = cArr_101100;
+    // cArrAggregate[45] = cArr_101101;
+    // cArrAggregate[46] = cArr_101110;
+    // cArrAggregate[47] = cArr_101111;
+    // cArrAggregate[48] = cArr_110000;
+    // cArrAggregate[49] = cArr_110001;
+    // cArrAggregate[50] = cArr_110010;
+    // cArrAggregate[51] = cArr_110011;
+    // cArrAggregate[52] = cArr_110100;
+    // cArrAggregate[53] = cArr_110101;
+    // cArrAggregate[54] = cArr_110110;
+    // cArrAggregate[55] = cArr_110111;
+    // cArrAggregate[56] = cArr_111000;
+    // cArrAggregate[57] = cArr_111001;
+    // cArrAggregate[58] = cArr_111010;
+    // cArrAggregate[59] = cArr_111011;
+    // cArrAggregate[60] = cArr_111100;
+    // cArrAggregate[61] = cArr_111101;
+    // cArrAggregate[62] = cArr_111110;
+    // cArrAggregate[63] = cArr_111111;
+
+    // // Applies appropriate corrrection depending on correctionMode
+    // switch (correctionMode)
+    // {
+    // case FiveQubitCode::correctionMode::noLossW1:
+    //     for (uint16_t i = 0; i < DIM_ANCILLA; i++)
+    //     {
+    //         FiveQubitCode::applyCorrection(i, cArrAggregate[i].data());
+    //     }
+    //     break;
+    // case FiveQubitCode::correctionMode::oneLoss:
+    //     for (uint16_t i = 0; i < DIM_ANCILLA; i++)
+    //     {
+    //         // // Reverse the permutation before correction (correction works WITHOUT permutation/cycling)
+    //         // cArrAggregate[i] = FastPauli::getCycledDM<NUMQUBITS>(cArrAggregate[i].data(), qubitLostIndex);
+    //         FiveQubitCode::applyCorrection_1erasure(i, cArrAggregate[i].data(), qubitLostIndex);
+    //     }
+    //     break;
+    // case FiveQubitCode::correctionMode::noLossW2:
+    //     for (uint16_t i = 0; i < DIM_ANCILLA; i++)
+    //     {
+    //         // TODO: Change `qubitLostIndex`'s name to something more general since it is shared by two different correction modes.
+    //         FiveQubitCode::applyCorrection_flag(i, qubitLostIndex, cArrAggregate[i].data());
+    //     }
+    //     break;
+    // default:
+    //     break;
+    // }
+
+    // // Sum all matrices and store the result in cArrAggregate[0].
+    // for (uint16_t i = 1; i < DIM_ANCILLA; i++)
+    // {
+    //     std::transform(cArrAggregate[0].begin(), cArrAggregate[0].end(), cArrAggregate[i].begin(), cArrAggregate[0].begin(), std::plus<double>()); // Reference: https://stackoverflow.com/questions/3376124/how-to-add-element-by-element-of-two-stl-vectors
+    // }
+    // return cArrAggregate[0];
+// }
+
+// void FiveQubitCode::applyCorrection(const uint16_t i, std::vector<double>& cArr7){
+    // ================================== OLD code ================================================
+    // MUST decrement k of X/Y/Z_k AND ..., k by 1 !!!
+    //                    // a_n corresponds to S_n stabiliser
+    // switch (i)         //  X  X  X  Z  Z  Z - stabilizer types. First single Z errors, then X, then Y
+    // {                  // a1 a2 a3 a4 a5 a6 : Pi where P ∈ {X,Y,Z} is a single-qubit Pauli operator and i is the index of the qubit to correct with i ∈ {0,1,2,3,4};
+    // case UINT16_C(32): //  1  0  0  0  0  0 : Z4
+    //     FastPauli::Z_r(cArr7, NUMQUBITS, 4);
+    //     break;
+    // case UINT16_C(16): //  0  1  0  0  0  0 : Z2
+    //     FastPauli::Z_r(cArr7, NUMQUBITS, 2);
+    //     break;
+    // case UINT16_C(48): //  1  1  0  0  0  0 : Z6
+    //     FastPauli::Z_r(cArr7, NUMQUBITS, 6);
+    //     break;
+    // case UINT16_C(8): //  0  0  1  0  0  0 : Z1
+    //     FastPauli::Z_r(cArr7, NUMQUBITS, 1);
+    //     break;
+    // case UINT16_C(40): //  1  0  1  0  0  0 : Z5
+    //     FastPauli::Z_r(cArr7, NUMQUBITS, 5);
+    //     break;
+    // case UINT16_C(24): //  0  1  1  0  0  0 : Z3
+    //     FastPauli::Z_r(cArr7, NUMQUBITS, 3);
+    //     break;
+    // case UINT16_C(56): //  1  1  1  0  0  0 : Z7
+    //     FastPauli::Z_r(cArr7, NUMQUBITS, 7);
+    //     break;
+    // case UINT16_C(4): //  0  0  0  1  0  0 : X4
+    //     FastPauli::X_r(cArr7, NUMQUBITS, 4);
+    //     break;
+    // case UINT16_C(2): //  0  0  0  0  1  0 : X2
+    //     FastPauli::X_r(cArr7, NUMQUBITS, 2);
+    //     break;
+    // case UINT16_C(6): //  0  0  0  1  1  0 : X6
+    //     FastPauli::X_r(cArr7, NUMQUBITS, 6);
+    //     break;
+    // case UINT16_C(1): //  0  0  0  0  0  1 : X1
+    //     FastPauli::X_r(cArr7, NUMQUBITS, 1);
+    //     break;
+    // case UINT16_C(5): //  0  0  0  1  0  1  : X5
+    //     FastPauli::X_r(cArr7, NUMQUBITS, 5);
+    //     break;
+    // case UINT16_C(3): //  0  0  0  0  1  1 : X3
+    //     FastPauli::X_r(cArr7, NUMQUBITS, 3);
+    //     break;
+    // case UINT16_C(7): //  0  0  0  1  1  1 : X7
+    //     FastPauli::X_r(cArr7, NUMQUBITS, 7);
+    //     break;
+    // case UINT16_C(36): //  1  0  0  1  0  0 : Y4
+    //     FastPauli::Y_r(cArr7, NUMQUBITS, 4);
+    //     break;
+    // case UINT16_C(18): //  0  1  0  0  1  0 : Y2
+    //     FastPauli::Y_r(cArr7, NUMQUBITS, 2);
+    //     break;
+    // case UINT16_C(54): //  1  1  0  1  1  0 : Y6
+    //     FastPauli::Y_r(cArr7, NUMQUBITS, 6);
+    //     break;
+    // case UINT16_C(9): //  0  0  1  0  0  1 : Y1
+    //     FastPauli::Y_r(cArr7, NUMQUBITS, 1);
+    //     break;
+    // case UINT16_C(45): //  1  0  1  1  0  1 : Y5
+    //     FastPauli::Y_r(cArr7, NUMQUBITS, 5);
+    //     break;
+    // case UINT16_C(27): //  0  1  1  0  1  1 : Y3
+    //     FastPauli::Y_r(cArr7, NUMQUBITS, 3);
+    //     break;
+    // case UINT16_C(63): //  1  1  1  1  1  1 : Y7
+    //     FastPauli::Y_r(cArr7, NUMQUBITS, 7);
+    //     break;
+
+    // default:
+    //     break;
+    // }
+   
+// }
+
+// FastPauli::CArr<NUMQUBITS> FiveQubitCode::applyCorrectionArrays(const std::vector<double>& cArr13, std::array<std::array<double, DIM_ANCILLA>, DIM_ANCILLA> const &ancillaKets)
+// {
+//     constexpr uint64_t cArrLen = FastPauli::CArrLen<NUMQUBITS>;
+//     std::array<double, cArrLen> dm;
+//     dm.fill(0.0);
+//     std::array<double, cArrLen> tempDm;
+
+//     for (uint16_t a = 0; a < DIM_ANCILLA; a++)
+//     { // 'ancillaKets' will have ancilla outcomes, possibly from getCorrectionArrays
+//         // Then via this loop, applyAncillaKet will "siphon out" the data qubits if cArr13 has matching ancilla (for current index a)
+//         FiveQubitCode::applyAncillaKet(tempDm.data(), NUM_ANCILLA, NUMQUBITS, ancillaKets[a].data(), cArr13);
+
+//         // Apply Pauli correction to tempDm. Finally correction is applied.
+//         FiveQubitCode::applyCorrection(a, tempDm.data());
+
+//         // Store corrected tempDm in dm.
+//         for (uint64_t k = 0; k < cArrLen; k++)
+//         {
+//             dm[k] += tempDm[k];
+//         }
+//     }
+
+//     // Return the corrected 7-qubit density matrix (C-array form).
+//     return dm;
+// }
+
+// // Regular stabilizers.
+// // At each stage, the new ancilla qubit gets added at the 'head' (0 index)
+// // MUST BE CHANGED for each QECC
+// // DONE for 7-1-3
+// void FiveQubitCode::S1(std::vector<double>& cArr, const double err, const double errTeleport)
+// {
+    // // IIIXXXX
+    // first_qubit = 1;
+    // constexpr int numQubits = NUMQUBITS + 1;
+    // NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 3, err);
+    // NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 4, errTeleport);
+    // NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 5, errTeleport);
+    // NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 6, errTeleport);
+// }
+
+// void FiveQubitCode::S2(std::vector<double>& cArr, const double err, const double errTeleport)
+// {
+    // // IXXIIXX
+    // first_qubit = 2;
+    // constexpr int numQubits = NUMQUBITS + 2;
+    // NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 1, err);
+    // NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 2, errTeleport);
+    // NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 5, errTeleport);
+    // NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 6, errTeleport);
+// }
+
+// void FiveQubitCode::S3(std::vector<double>& cArr, const double err, const double errTeleport)
+// {
+    // // XIXIXIX
+    // first_qubit = 3;
+    // constexpr int numQubits = NUMQUBITS + 3;
+    // NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit, err);
+    // NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 2, errTeleport);
+    // NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 4, errTeleport);
+    // NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 6, errTeleport);
+// }
+
+// void FiveQubitCode::S4(std::vector<double>& cArr, const double err, const double errTeleport)
+// {
+    // // IIIZZZZ
+    // first_qubit = 4;
+    // constexpr int numQubits = NUMQUBITS + 4;
+    // NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 3, err);
+    // NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 4, errTeleport);
+    // NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 5, errTeleport);
+    // NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 6, errTeleport);
+// }
+
+// void FiveQubitCode::S5(std::vector<double>& cArr, const double err, const double errTeleport)
+// {
+    // // IZZIIZZ
+    // first_qubit = 5;
+    // constexpr int numQubits = NUMQUBITS + 5;
+    // NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 1, err);
+    // NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 2, errTeleport);
+    // NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 5, errTeleport);
+    // NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 6, errTeleport);
+// }
+
+// void FiveQubitCode::S6(std::vector<double>& cArr, const double err, const double errTeleport)
+// {
+    // // ZIZIZIZ
+    // first_qubit = 6;
+    // constexpr int numQubits = NUMQUBITS + 6;
+    // NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit, err);
+    // NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 2, errTeleport);
+    // NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 4, errTeleport);
+    // NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 6, errTeleport);
+// }
+
+// This function returns a set of kets for the ancillas
+// E.g. for 4 ancillas we'll have (+,+,+,+), (+,+,+,-) ... (-,-,-,-) : all possible combinations
+// myAncillaKets = [(+,+,+,+), (+,+,+,-) ... (-,-,-,-)], where for each ket the 0 index is rightmost
+/* 
+std::array<std::array<double, DIM_ANCILLA>, DIM_ANCILLA> FiveQubitCode::getCorrectionArrays()
+{
+    std::array<std::array<double, DIM_ANCILLA>, DIM_ANCILLA> myAncillaKets;
+    std::array<double, DIM_ANCILLA> ketH6 = FiveQubitCode::getKetH<NUM_ANCILLA>(); // ket(+,+,+,+)
+    std::array<double, DIM_ANCILLA> tempKetH6;
+    for (uint16_t i = 0; i < static_cast<uint16_t>(DIM_ANCILLA); i++)
+    {
+        tempKetH6 = ketH6;
+        for (uint16_t j = 0; j < static_cast<uint16_t>(NUM_ANCILLA); j++)
+        {
+            if (((i >> (NUM_ANCILLA - 1 - j)) & 0x01))
+            {
+                FastPauli::ketZ_r(tempKetH6.data(), NUM_ANCILLA, j);
+            }
+        }
+        myAncillaKets[i] = tempKetH6;
+    }
+    return myAncillaKets;
+}
+ */
+
+// double FiveQubitCode::applyCorrectionArrays(std::array<std::array<double, 512>, 16> const &correctionArrays, const std::vector<double>& cArr9) {
+//     // To-do: Make this function also return the resulting 5-qubit matrix so that we can use it to calculate the 2nd order fidelity using the recursion approximation.
+//     double fidel = 0;
+//     for (uint16_t i = 0; i < 16Ui16; i++) {
+//         fidel += FastPauli::fidel_r(correctionArrays[i].data(), cArr9, 9);
+//     }
+//     return fidel;
+// }
+
+/*  What this (and the other 2nd-overload SnSequential funcs) does is take input data qubit cArr,
+    apply corresponding (1st overload) stabiliser on it, then check the new ancilla and return
+    data qubit cArr accordingly (other one will be 0 due to applyAncillaKet):
+    In result.first only when modified ancilla is |+⟩
+    In result.second only when modified ancilla is |-⟩
+*/
+
+// std::pair<FastPauli::CArr<NUMQUBITS>, FastPauli::CArr<NUMQUBITS>> FiveQubitCode::S1Sequential(FastPauli::CArr<NUMQUBITS> const &cArr7, const double err, const double errTeleport)
+// {
+//     // Initialise variables.
+//     std::pair<FastPauli::CArr<NUMQUBITS>, FastPauli::CArr<NUMQUBITS>> result;
+//     std::array<double, FastPauli::CArrLen<NUMQUBITS + 1>> tmp;
+
+//     // Get ready |+⟩⟨+|.
+//     std::array<double, FastPauli::CArrLen<1>> cArrH1P = FiveQubitCode::getH<1>();
+
+//     // Get ready |+⟩.
+//     std::array<double, 2> ketH1P = FiveQubitCode::getKetH<1>();
+
+//     // Get ready |-⟩.
+//     std::array<double, 2> ketH1N = ketH1P;
+//     FastPauli::ketZ_r(ketH1N.data(), 1, 0);
+
+//     // Perform stabiliser operations.
+//     tmp = FastPauli::kron<1, NUMQUBITS>(cArrH1P.data(), cArr7.data());
+//     FiveQubitCode::S1Sequential(tmp.data(), err, errTeleport);
+
+//     // Measure ancilla qubit.
+//     result.first = FiveQubitCode::applyAncillaKet<1, NUMQUBITS>(ketH1P.data(), tmp.data());
+//     result.second = FiveQubitCode::applyAncillaKet<1, NUMQUBITS>(ketH1N.data(), tmp.data());
+//     return result;
+// }
+
+// std::pair<FastPauli::CArr<NUMQUBITS>, FastPauli::CArr<NUMQUBITS>> FiveQubitCode::S2Sequential(FastPauli::CArr<NUMQUBITS> const &cArr7, const double errTeleport)
+// {
+//     // Initialise variables.
+//     std::pair<FastPauli::CArr<NUMQUBITS>, FastPauli::CArr<NUMQUBITS>> result;
+//     std::array<double, FastPauli::CArrLen<NUMQUBITS + 1>> tmp;
+
+//     // Get ready |+⟩⟨+|.
+//     std::array<double, FastPauli::CArrLen<1>> cArrH1P = FiveQubitCode::getH<1>();
+
+//     // Get ready |+⟩.
+//     std::array<double, 2> ketH1P = FiveQubitCode::getKetH<1>();
+
+//     // Get ready |-⟩.
+//     std::array<double, 2> ketH1N = ketH1P;
+//     FastPauli::ketZ_r(ketH1N.data(), 1, 0);
+
+//     // Perform stabiliser operations.
+//     tmp = FastPauli::kron<1, NUMQUBITS>(cArrH1P.data(), cArr7.data());
+//     FiveQubitCode::S2Sequential(tmp.data(), errTeleport);
+
+//     // Measure ancilla qubit.
+//     result.first = FiveQubitCode::applyAncillaKet<1, NUMQUBITS>(ketH1P.data(), tmp.data());
+//     result.second = FiveQubitCode::applyAncillaKet<1, NUMQUBITS>(ketH1N.data(), tmp.data());
+//     return result;
+// }
+
+// std::pair<FastPauli::CArr<NUMQUBITS>, FastPauli::CArr<NUMQUBITS>> FiveQubitCode::S3Sequential(FastPauli::CArr<NUMQUBITS> const &cArr7, const double errTeleport)
+// {
+    // Initialise variables.
+    // std::pair<FastPauli::CArr<NUMQUBITS>, FastPauli::CArr<NUMQUBITS>> result;
+    // std::array<double, FastPauli::CArrLen<NUMQUBITS + 1>> tmp;
+
+    // Get ready |+⟩⟨+|.
+    // std::array<double, FastPauli::CArrLen<1>> cArrH1P = FiveQubitCode::getH<1>();
+
+    // Get ready |+⟩.
+    // std::array<double, 2> ketH1P = FiveQubitCode::getKetH<1>();
+
+    // Get ready |-⟩.
+    // std::array<double, 2> ketH1N = ketH1P;
+    // FastPauli::ketZ_r(ketH1N.data(), 1, 0);
+
+    // Perform stabiliser operations.
+    // tmp = FastPauli::kron<1, NUMQUBITS>(cArrH1P.data(), cArr7.data());
+    // FiveQubitCode::S3Sequential(tmp.data(), errTeleport);
+
+    // Measure ancilla qubit.
+    // result.first = FiveQubitCode::applyAncillaKet<1, NUMQUBITS>(ketH1P.data(), tmp.data());
+    // result.second = FiveQubitCode::applyAncillaKet<1, NUMQUBITS>(ketH1N.data(), tmp.data());
+    // return result;
+// }
+
+// std::pair<FastPauli::CArr<NUMQUBITS>, FastPauli::CArr<NUMQUBITS>> FiveQubitCode::S4Sequential(FastPauli::CArr<NUMQUBITS> const &cArr7, const double errTeleport)
+// {
+    // Initialise variables.
+    // std::pair<FastPauli::CArr<NUMQUBITS>, FastPauli::CArr<NUMQUBITS>> result;
+    // std::array<double, FastPauli::CArrLen<NUMQUBITS + 1>> tmp;
+
+    // Get ready |+⟩⟨+|.
+    // std::array<double, FastPauli::CArrLen<1>> cArrH1P = FiveQubitCode::getH<1>();
+
+    // Get ready |+⟩.
+    // std::array<double, 2> ketH1P = FiveQubitCode::getKetH<1>();
+
+    // Get ready |-⟩.
+    // std::array<double, 2> ketH1N = ketH1P;
+    // FastPauli::ketZ_r(ketH1N.data(), 1, 0);
+
+    // Perform stabiliser operations.
+    // tmp = FastPauli::kron<1, NUMQUBITS>(cArrH1P.data(), cArr7.data());
+    // FiveQubitCode::S4Sequential(tmp.data(), errTeleport);
+
+    // Measure ancilla qubit.
+    // result.first = FiveQubitCode::applyAncillaKet<1, NUMQUBITS>(ketH1P.data(), tmp.data());
+    // result.second = FiveQubitCode::applyAncillaKet<1, NUMQUBITS>(ketH1N.data(), tmp.data());
+    // return result;
+// }
+
+// std::pair<FastPauli::CArr<NUMQUBITS>, FastPauli::CArr<NUMQUBITS>> FiveQubitCode::S5Sequential(FastPauli::CArr<NUMQUBITS> const &cArr7, const double errTeleport)
+// {
+    // Initialise variables.
+    // std::pair<FastPauli::CArr<NUMQUBITS>, FastPauli::CArr<NUMQUBITS>> result;
+    // std::array<double, FastPauli::CArrLen<NUMQUBITS + 1>> tmp;
+
+    // Get ready |+⟩⟨+|.
+    // std::array<double, FastPauli::CArrLen<1>> cArrH1P = FiveQubitCode::getH<1>();
+
+    // Get ready |+⟩.
+    // std::array<double, 2> ketH1P = FiveQubitCode::getKetH<1>();
+
+    // Get ready |-⟩.
+    // std::array<double, 2> ketH1N = ketH1P;
+    // FastPauli::ketZ_r(ketH1N.data(), 1, 0);
+
+    // Perform stabiliser operations.
+    // tmp = FastPauli::kron<1, NUMQUBITS>(cArrH1P.data(), cArr7.data());
+    // FiveQubitCode::S2Sequential(tmp.data(), errTeleport);
+
+    // Measure ancilla qubit.
+    // result.first = FiveQubitCode::applyAncillaKet<1, NUMQUBITS>(ketH1P.data(), tmp.data());
+    // result.second = FiveQubitCode::applyAncillaKet<1, NUMQUBITS>(ketH1N.data(), tmp.data());
+    // return result;
+// }
+
+// std::pair<FastPauli::CArr<NUMQUBITS>, FastPauli::CArr<NUMQUBITS>> FiveQubitCode::S6Sequential(FastPauli::CArr<NUMQUBITS> const &cArr7, const double errTeleport)
+// {
+    // Initialise variables.
+    // std::pair<FastPauli::CArr<NUMQUBITS>, FastPauli::CArr<NUMQUBITS>> result;
+    // std::array<double, FastPauli::CArrLen<NUMQUBITS + 1>> tmp;
+
+    // Get ready |+⟩⟨+|.
+    // std::array<double, FastPauli::CArrLen<1>> cArrH1P = FiveQubitCode::getH<1>();
+
+    // Get ready |+⟩.
+    // std::array<double, 2> ketH1P = FiveQubitCode::getKetH<1>();
+
+    // Get ready |-⟩.
+    // std::array<double, 2> ketH1N = ketH1P;
+    // FastPauli::ketZ_r(ketH1N.data(), 1, 0);
+
+    // Perform stabiliser operations.
+    // tmp = FastPauli::kron<1, NUMQUBITS>(cArrH1P.data(), cArr7.data());
+    // FiveQubitCode::S3Sequential(tmp.data(), errTeleport);
+
+    // Measure ancilla qubit.
+    // result.first = FiveQubitCode::applyAncillaKet<1, NUMQUBITS>(ketH1P.data(), tmp.data());
+    // result.second = FiveQubitCode::applyAncillaKet<1, NUMQUBITS>(ketH1N.data(), tmp.data());
+    // return result;
+// }
+
+// Appends an ancilla |+> at 0 index and passes through stabilzer. Does this for all stabilzers
+// MUST BE FIXED for each QECC
+// DONE for 7-1-3
+// void FiveQubitCode::OneRound(std::vector<double>& cArr8, std::vector<double>& cArr9, std::vector<double>& cArr10, std::vector<double>& cArr11, std::vector<double>& cArr12, std::vector<double>& cArr13, const std::vector<double>& cArrCodeword, const std::vector<double>& cArrH1, const double err, const double errTeleport)
+// {
+//     FastPauli::kron(cArr8, cArrH1, cArrCodeword, 1, 7);
+//     FiveQubitCode::S1(cArr8, err, errTeleport);
+//     FastPauli::kron(cArr9, cArrH1, cArr8, 1, 8);
+//     FiveQubitCode::S2(cArr9, err, errTeleport);
+//     FastPauli::kron(cArr10, cArrH1, cArr9, 1, 9);
+//     FiveQubitCode::S3(cArr10, err, errTeleport);
+//     FastPauli::kron(cArr11, cArrH1, cArr10, 1, 10);
+//     FiveQubitCode::S4(cArr11, err, errTeleport);
+//     FastPauli::kron(cArr12, cArrH1, cArr11, 1, 11);
+//     FiveQubitCode::S5(cArr12, err, errTeleport);
+//     FastPauli::kron(cArr13, cArrH1, cArr12, 1, 12);
+//     FiveQubitCode::S6(cArr13, err, errTeleport);
+//     // double fidel = FiveQubitCode::applyCorrectionArrays(correctionArrays, cArr9);
+//     // return fidel;
+// }

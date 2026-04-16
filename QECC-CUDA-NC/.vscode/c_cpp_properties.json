@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${default}",
+                "./effective_error_probability/include",
+                "./secret_key_rate/include",
+                "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.9/include",
+                "C:/vcpkg/installed/x64-windows/include",
+                "C:/vcpkg/installed/x64-windows/include/eigen3/unsupported/Eigen",
+                "C:/Program Files (x86)/qpp/include/qpp"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:/msys64/mingw64/bin/g++.exe", // Change this to your g++ path
+            "cStandard": "c23",
+            "cppStandard": "c++23",
+            "intelliSenseMode": "windows-gcc-x64"
+            // "windowsSdkVersion": "10.0.22621.0",
+            // "intelliSenseMode": "windows-msvc-x64"
+        }
+    ],
+    "version": 4
+}

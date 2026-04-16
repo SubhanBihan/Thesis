@@ -1,0 +1,41 @@
+{c / std::sqrt(8.0), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, c / std::sqrt(8.0), 0, 0, 0, 0, 0, 0, s / std::sqrt(8.0), 0, 0, s / std::sqrt(8.0), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, s / std::sqrt(8.0), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, c / std::sqrt(8.0), 0, 0, 0, 0, 0, 0, 0, 0, c / std::sqrt(8.0), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, s / std::sqrt(8.0), 0, 0, 0, 0, 0, 0, 0, 0, s / std::sqrt(8.0), 0, 0, 0, 0, c / std::sqrt(8.0), 0, 0, 0, 0, 0, 0, 0, 0, s / std::sqrt(8.0), 0, 0, c / std::sqrt(8.0), 0, 0, c / std::sqrt(8.0), 0, 0, 0, 0, 0, 0, s / std::sqrt(8.0), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, s / std::sqrt(8.0)}
+
+#include <array>
+#include <iostream>
+
+int main() {
+    std::vector<double, 5> arr = {1.0, 2.0, 3.0, 4.0, 5.0};
+    double factor = 0.2;
+
+    // Multiply each element by the factor
+    for (auto& element : arr) {
+        element *= factor;
+    }
+
+    // Output the result
+    for (const auto& element : arr) {
+        std::cout << element << " ";
+    }
+}
+
+
+#include <array>
+#include <algorithm>
+#include <iostream>
+
+int main() {
+    std::vector<double, 5> arr = {1.0, 2.0, 3.0, 4.0, 5.0};
+    double factor = 0.2;
+
+    // Create an output array to store the result
+    std::vector<double, 5> result;
+
+    // Multiply each element by the factor using std::transform
+    std::transform(arr.begin(), arr.end(), result.begin(),
+                   [factor](double x) { return x * factor; });
+
+    // Output the result
+    for (const auto& element : result) {
+        std::cout << element << " ";
+    }
+}

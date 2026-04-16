@@ -1,0 +1,194 @@
+// void FiveQubitCode::applyCorrection_1erasure(const uint16_t i, std::vector<double>& cArr7, const int k2)
+// {   
+    // k2 is qubitlostindex
+    // k2 corresponds to 𝒦-1, and k is k-1
+
+    /* 
+    const int k = (k2 + 1) % NUMQUBITS;
+    switch (i)     // See Table 4.2 in Wo Kah Jen's MSc thesis.
+    {                 // a1 a2 a3 a4 : Pi where P ∈ {X,Y,Z} is a single-qubit Pauli operator and i is the index of the qubit to correct with i ∈ {0,1,2,3,4};
+    case UINT16_C(1): //  0  0  0  1 : X𝒦
+        FastPauli::X_r(cArr7, NUMQUBITS, k2);
+        break;
+    case UINT16_C(2): //  0  0  1  0 : XkZ𝒦
+        FastPauli::X_r(cArr7, NUMQUBITS, k);
+        FastPauli::Z_r(cArr7, NUMQUBITS, k2);
+        break;
+    case UINT16_C(3): //  0  0  1  1 : XkY𝒦
+        FastPauli::X_r(cArr7, NUMQUBITS, k);
+        FastPauli::Y_r(cArr7, NUMQUBITS, k2);
+        break;
+    case UINT16_C(4): //  0  1  0  0 : ZkX𝒦
+        FastPauli::Z_r(cArr7, NUMQUBITS, k);
+        FastPauli::X_r(cArr7, NUMQUBITS, k2);
+        break;
+    case UINT16_C(5): //  0  1  0  1 : Zk
+        FastPauli::Z_r(cArr7, NUMQUBITS, k);
+        break;
+    case UINT16_C(6): //  0  1  1  0 : YkY𝒦
+        FastPauli::Y_r(cArr7, NUMQUBITS, k);
+        FastPauli::Y_r(cArr7, NUMQUBITS, k2);
+        break;
+    case UINT16_C(7): //  0  1  1  1 : YkZ𝒦
+        FastPauli::Y_r(cArr7, NUMQUBITS, k);
+        FastPauli::Z_r(cArr7, NUMQUBITS, k2);
+        break;
+    case UINT16_C(8): //  1  0  0  0 : Xk
+        FastPauli::X_r(cArr7, NUMQUBITS, k);
+        break;
+    case UINT16_C(9): //  1  0  0  1 : XkX𝒦
+        FastPauli::X_r(cArr7, NUMQUBITS, k);
+        FastPauli::X_r(cArr7, NUMQUBITS, k2);
+        break;
+    case UINT16_C(10): //  1  0  1  0 : Z𝒦
+        FastPauli::Z_r(cArr7, NUMQUBITS, k2);
+        break;
+    case UINT16_C(11): //  1  0  1  1 : Y𝒦
+        FastPauli::Y_r(cArr7, NUMQUBITS, k2);
+        break;
+    case UINT16_C(12): //  1  1  0  0 : YkX𝒦
+        FastPauli::Y_r(cArr7, NUMQUBITS, k);
+        FastPauli::X_r(cArr7, NUMQUBITS, k2);
+        break;
+    case UINT16_C(13): //  1  1  0  1 : Yk
+        FastPauli::Y_r(cArr7, NUMQUBITS, k);
+        break;
+    case UINT16_C(14): //  1  1  1  0 : ZkY𝒦
+        FastPauli::Z_r(cArr7, NUMQUBITS, k);
+        FastPauli::Y_r(cArr7, NUMQUBITS, k2);
+        break;
+    case UINT16_C(15): //  1  1  1  1 : ZkZ𝒦
+        FastPauli::Z_r(cArr7, NUMQUBITS, k);
+        FastPauli::Z_r(cArr7, NUMQUBITS, k2);
+        break;
+    default:
+        break;
+    } */
+}
+
+// UNUSED!!!
+/* 
+std::array<double, FastPauli::CArrLen<NUMQUBITS>> FiveQubitCode::applyCorrectionArrays_1erasure(const std::vector<double>& cArr13, const int k)
+{
+    constexpr uint64_t cArrLen = FastPauli::CArrLen<NUMQUBITS>;
+    std::array<double, cArrLen> dm;
+    dm.fill(0.0);
+    std::array<double, cArrLen> tempDm;
+    std::vector<double> tempDm_vec;
+    double trace;
+
+    // Part of old code
+    // std::array<double, 2> ketH1 = FiveQubitCode::getKetH<1>();
+    // std::array<double, 2> tempKetH1;
+
+    // // Temporary/reduced cArrs, from NUMQUBITS to (NUMQUBITS + NUM_ANCILLA - 1)
+    // std::array<double, FastPauli::CArrLen<12>> cArr12;
+    // std::array<double, FastPauli::CArrLen<11>> cArr11;
+    // std::array<double, FastPauli::CArrLen<10>> cArr10;
+    // std::array<double, FastPauli::CArrLen<9>> cArr9;
+    // std::array<double, FastPauli::CArrLen<8>> cArr8;
+
+    std::array<std::array<double, DIM_ANCILLA>, DIM_ANCILLA> ancillaKets = FiveQubitCode::getCorrectionArrays(); // Part of "improved" code
+
+    // Test for all possible ancillas
+    for (uint16_t a = 0; a < DIM_ANCILLA; a++)
+    {
+        // READ THIS: As explained below, this portion seemed to essentially do the same thing as applyAncillaKet, and the sequential process seems unnecessary
+        //   See the same implementation in applyCorrectionArrays
+        //   So the "improved" code has been written
+        //   In (my) theory it should work the same, but if problems arise, fall back to this "old" code
+        
+        // // Loop over each ancilla qubit, sequentially extracting the data qubits from input (ancilla + data) cArr
+        // // Result will be 0 if tested ancillas (dictated by current a value) do not match those in input cArr
+        // // Similar to applyAncillaKet in FiveQubitCode.cpp
+        // for (uint16_t j = 0; j < UINT16_C(NUM_ANCILLA); j++)
+        // {
+        //     tempKetH1 = ketH1;
+        //     if (((a >> (NUM_ANCILLA - 1 - j)) & 0x01))
+        //     {
+        //         FastPauli::ketZ_r(tempKetH1.data(), 1, 0);
+        //     }
+
+        //     switch (j)
+        //     {
+        //     case UINT16_C(0):
+        //         FiveQubitCode::applyAncillaKet(cArr12.data(), 1, 12, tempKetH1.data(), cArr13);
+        //         break;
+        //     case UINT16_C(1):
+        //         FiveQubitCode::applyAncillaKet(cArr11.data(), 1, 11, tempKetH1.data(), cArr12.data());
+        //         break;
+        //     case UINT16_C(2):
+        //         FiveQubitCode::applyAncillaKet(cArr10.data(), 1, 10, tempKetH1.data(), cArr11.data());
+        //         break;
+        //     case UINT16_C(3):
+        //         FiveQubitCode::applyAncillaKet(cArr9.data(), 1, 9, tempKetH1.data(), cArr10.data());
+        //         break;
+        //     case UINT16_C(4):
+        //         FiveQubitCode::applyAncillaKet(cArr8.data(), 1, 8, tempKetH1.data(), cArr9.data());
+        //         break;
+        //     case UINT16_C(5):
+        //         FiveQubitCode::applyAncillaKet(tempDm.data(), 1, numQubits, tempKetH1.data(), cArr8.data());
+        //     default:
+        //         break;
+        //     }
+        // }
+
+        // IMPROVED CODE 
+        FiveQubitCode::applyAncillaKet(tempDm.data(), NUM_ANCILLA, NUMQUBITS, ancillaKets[a].data(), cArr13);
+
+        // // Return to original permutation.
+        // tempDm_vec = FastPauli::getCycledDM(tempDm.data(), k, NUMQUBITS);
+
+        // Apply Pauli correction to tempDm.
+        FiveQubitCode::applyCorrection_1erasure(a, tempDm_vec.data(), k);
+
+        // Store corrected tempDm in dm. Only one tempDm from the entire loop process will be non-zero
+        for (uint64_t kk = 0; kk < cArrLen; kk++)
+        {
+            dm[kk] += tempDm_vec[kk];
+        }
+    }
+
+    // Divide by trace for "normalization". I believe it's to convert from mixed to pure state.
+    trace = FastPauli::trace_r(dm.data(), NUMQUBITS);
+    for (size_t i = 0; i < FastPauli::CArrLen<NUMQUBITS>; i++)
+    {
+        dm[i] = dm[i] / trace;
+    }
+
+    // Return the corrected 5-qubit density matrix (C-array form).
+    return dm;
+}
+ */
+
+// UNUSED!!!
+/* 
+std::array<double, FastPauli::CArrLen<NUMQUBITS>> FiveQubitCode::OneRound_1erasure(std::vector<double>& logicalKet, const std::vector<double>& cArrCodeword, const double err, const double errTeleport, const int k)
+{
+    // Initialise the density matrix for a single ancilla qubit.
+    std::array<double, FastPauli::CArrLen<1>> cArrH1 = FiveQubitCode::getH<1>();
+
+    // Initialise density matrix in which we store the results after the reset gate.
+    std::vector<double> erasure_k = FastPauli::Reset_r(cArrCodeword, NUMQUBITS, k);
+
+    // Initialise temporary arrays.
+    std::array<double, FastPauli::CArrLen<NUMQUBITS>> cArr7; // Stores result.
+    std::array<double, FastPauli::CArrLen<NUMQUBITS + 1>> cArr8;
+    std::array<double, FastPauli::CArrLen<NUMQUBITS + 2>> cArr9; // Need to increase stack size. Use /F option in MSVC compiler to specify large stack size.
+    std::array<double, FastPauli::CArrLen<NUMQUBITS + 3>> cArr10;
+    std::array<double, FastPauli::CArrLen<NUMQUBITS + 4>> cArr11;
+    std::array<double, FastPauli::CArrLen<NUMQUBITS + 5>> cArr12;
+    std::array<double, FastPauli::CArrLen<NUMQUBITS + 6>> cArr13;
+
+    // // Perform cyclic permutation of the data qubits depending on which qubit was lost.
+    // erasure_k = FastPauli::getCycledDM(erasure_k.data(), -k, NUMQUBITS);
+
+    // Perform OneRound on on the permutated cArrCodeword (which is erasure_k).
+    FiveQubitCode::OneRound(cArr8.data(), cArr9.data(), cArr10.data(), cArr11.data(), cArr12.data(), cArr13.data(), erasure_k.data(), cArrH1.data(), err, errTeleport);
+
+    // Correct for 1-erasure error and output
+    cArr7 = FiveQubitCode::applyCorrectionArrays_1erasure(cArr13.data(), k);
+
+    return cArr7;
+}
+ */

@@ -1,0 +1,1041 @@
+data: "[Unknown]"
+data: "[Unknown kernel module]"
+data: "[Max depth]"
+data: "[Broken backtraces]"
+data: "[Called from Java]"
+data: "GpuMetrics"
+data: "SocMetrics"
+data: "GenericCounters"
+data: "mm_"
+data: "task_submit"
+data: "class_id"
+data: "syncpt_id"
+data: "syncpt_thresh"
+data: "pid"
+data: "tid"
+data: "FTrace"
+data: "ETW"
+data: "C:/Users/SBihan/AppData/Local/Temp/nvidia/nsight_systems/quadd_session_1023572/streams/stdout_d0c0-9155-c231-0df0.log"
+data: "COMPLETED SUCCESSFULLY!\n"
+data: "C:/Users/SBihan/AppData/Local/Temp/nvidia/nsight_systems/quadd_session_1023572/streams/stderr_d0c0-9155-c231-0df0.log"
+data: ""
+data: "C:/Program Files/NVIDIA Corporation/Nsight Systems 2024.7.1/target-windows-x64/config.ini"
+data: "Chunk Allocation"
+data: "TLS allocation"
+data: "NVTX profiling started"
+data: "[NSys Comms]"
+data: "*1TaskRunner"
+data: "Thread name service initialization"
+data: "OS runtime libraries profiling started"
+data: "[NSys]"
+data: "Profiling initialization"
+data: "[NSys stream redirect]"
+data: "OpenGL profiling started"
+data: "OpenGL profiling initialization"
+data: "CUDA profiling started"
+data: "CUDA profiling initialization"
+data: "CUPTI worker thread"
+data: "Unknown"
+data: "CUDA profiling data flush on cuInit finished"
+data: "cuModuleGetLoadingMode"
+data: "cuDeviceGetLuid"
+data: "CUPTI Instrumentation"
+data: "CUPTI Resource Management"
+data: "CUDA profiling data flush on context created"
+data: "CUDA profiling memory allocation"
+data: "cudaMallocManaged_v6000"
+data: "JIT Cache Load"
+data: "Runtime Triggered Module Loading"
+data: "_Z9vectorAddPiS_S_i"
+data: "Lazy Function Loading"
+data: "vectorAdd(int *, int *, int *, int)"
+data: "vectorAdd"
+data: "cudaLaunchKernel_v7000"
+data: "cudaDeviceSynchronize_v3020"
+data: "cudaFree_v3020"
+data: "cuLibraryUnload"
+data: "CUPTI Buffer flush"
+data: "CUDA profiling data flush on process exit"
+data: "CUDA profiling finished"
+data: "NVTX profiling finished"
+data: "OS runtime libraries profiling finished"
+data: "cuCtxSynchronize"
+data: "OpenGL profiling finished"
+data: "CUDA profiling data flush on analysis stop"
+data: "Profiling has started."
+data: "Process 26748 was launched by the profiler"
+data: "Common injection library initialized successfully."
+data: "OpenGL injection initialized successfully."
+data: "Buffers holding CUDA trace data will be flushed on CudaProfilerStop() call. See --flush-on-cudaprofilerstop to control this behavior."
+data: "Loaded CUPTI library: C:\\Program Files\\NVIDIA Corporation\\Nsight Systems 2024.7.1\\target-windows-x64\\cupti64_126.dll"
+data: "Enabling trace for device graph launch"
+data: "CUDA injection initialized successfully."
+data: "Number of CUPTI events produced: \t91, CUPTI buffers: 20."
+data: "Number of CUPTI events produced: \t94, CUPTI buffers: 20."
+data: "Profiling has stopped."
+data: "No NVTX events collected. Does the process use NVTX?"
+data: "No OpenGL events collected. Does the process use OpenGL?"
+data: "Number of CUDA events collected: \t13."
+data: "Number of OS runtime libraries events collected: \t2."
+files {
+  GlobalProcessId: 281923733684224
+  FileName: 17
+  Content: 18
+}
+files {
+  GlobalProcessId: 281923733684224
+  FileName: 19
+  Content: 20
+}
+files {
+  GlobalProcessId: 281474976710656
+  FileName: 21
+  Content: 20
+}
+
+Type: 49
+DiagnosticEvent_ {
+  Timestamp {
+    Time: 268600
+    Type: TargetTimestamp
+    NsTime: true
+  }
+  Source: Analysis
+  Level: Info
+  Text: "Profiling has started."
+  GlobalProcess: 18302628885633695744
+}
+
+Type: 49
+DiagnosticEvent_ {
+  Timestamp {
+    Time: 4652900
+    Type: HostTimestamp
+    NsTime: true
+  }
+  Source: Analysis
+  Level: Warning
+  Text: "No NVTX events collected. Does the process use NVTX?"
+  GlobalProcess: 281923733684224
+}
+
+Type: 49
+DiagnosticEvent_ {
+  Timestamp {
+    Time: 4656700
+    Type: HostTimestamp
+    NsTime: true
+  }
+  Source: Analysis
+  Level: Warning
+  Text: "No OpenGL events collected. Does the process use OpenGL?"
+  GlobalProcess: 281923733684224
+}
+
+Type: 49
+DiagnosticEvent_ {
+  Timestamp {
+    Time: 4658600
+    Type: HostTimestamp
+    NsTime: true
+  }
+  Source: Analysis
+  Level: Info
+  Text: "Number of CUDA events collected: \t13."
+  GlobalProcess: 281923733684224
+}
+
+Type: 49
+DiagnosticEvent_ {
+  Timestamp {
+    Time: 4660600
+    Type: HostTimestamp
+    NsTime: true
+  }
+  Source: Analysis
+  Level: Info
+  Text: "Number of OS runtime libraries events collected: \t2."
+  GlobalProcess: 281923733684224
+}
+
+Type: 49
+DiagnosticEvent_ {
+  Timestamp {
+    Time: 21869100
+    Type: TargetTimestamp
+    NsTime: true
+  }
+  Source: Daemon
+  Level: Info
+  Text: "Process 26748 was launched by the profiler"
+  GlobalProcess: 281923733684224
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 382438181
+  endNs: 412920869
+  correlationId: 0
+  eventClass: 3
+  name: 27
+  returnValue: 0
+  globalTid: 281923733688128
+  nestingLevel: 0
+}
+
+Type: 47
+TraceProcessEvent_ {
+  startNs: 412712985
+  endNs: 412712985
+  correlationId: 0
+  eventClass: 6
+  name: 24
+  returnValue: 0
+  globalTid: 281923733684224
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 412716642
+  endNs: 412885472
+  correlationId: 0
+  eventClass: 3
+  name: 23
+  returnValue: 0
+  globalTid: 281923733688128
+  nestingLevel: 1
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 412717433
+  endNs: 412858781
+  correlationId: 0
+  eventClass: 3
+  name: 22
+  returnValue: 0
+  globalTid: 281923733688128
+  nestingLevel: 0
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 412902868
+  endNs: 413168100
+  correlationId: 0
+  eventClass: 3
+  name: 23
+  returnValue: 0
+  globalTid: 281923733708520
+  nestingLevel: 0
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 412911484
+  endNs: 413368379
+  correlationId: 0
+  eventClass: 3
+  name: 23
+  returnValue: 0
+  globalTid: 281923733707888
+  nestingLevel: 0
+}
+
+Type: 49
+DiagnosticEvent_ {
+  Timestamp {
+    Time: 412915719
+    Type: TargetTimestamp
+    NsTime: true
+  }
+  Source: Injection
+  Level: Info
+  Text: "Common injection library initialized successfully."
+  GlobalProcess: 281923733684224
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 412921219
+  endNs: 416781111
+  correlationId: 0
+  eventClass: 3
+  name: 30
+  returnValue: 0
+  globalTid: 281923733688128
+  nestingLevel: 1
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 417640869
+  endNs: 417812995
+  correlationId: 0
+  eventClass: 3
+  name: 23
+  returnValue: 0
+  globalTid: 281923733704832
+  nestingLevel: 0
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 417681226
+  endNs: 418084680
+  correlationId: 0
+  eventClass: 3
+  name: 23
+  returnValue: 0
+  globalTid: 281923733702692
+  nestingLevel: 0
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 418107580
+  endNs: 804033076
+  correlationId: 0
+  eventClass: 3
+  name: 33
+  returnValue: 0
+  globalTid: 281923733688128
+  nestingLevel: 1
+}
+
+Type: 47
+TraceProcessEvent_ {
+  startNs: 804019390
+  endNs: 804019390
+  correlationId: 0
+  eventClass: 8
+  name: 32
+  returnValue: 0
+  globalTid: 281923733684224
+}
+
+Type: 49
+DiagnosticEvent_ {
+  Timestamp {
+    Time: 804030561
+    Type: TargetTimestamp
+    NsTime: true
+  }
+  Source: Injection
+  Level: Info
+  Text: "OpenGL injection initialized successfully."
+  GlobalProcess: 281923733684224
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 806140426
+  endNs: 836426525
+  correlationId: 0
+  eventClass: 3
+  name: 35
+  returnValue: 0
+  globalTid: 281923733688128
+  nestingLevel: 1
+}
+
+Type: 49
+DiagnosticEvent_ {
+  Timestamp {
+    Time: 806343401
+    Type: TargetTimestamp
+    NsTime: true
+  }
+  Source: Injection
+  Level: Info
+  Text: "Buffers holding CUDA trace data will be flushed on CudaProfilerStop() call. See --flush-on-cudaprofilerstop to control this behavior."
+  GlobalProcess: 281923733684224
+}
+
+Type: 49
+DiagnosticEvent_ {
+  Timestamp {
+    Time: 820250585
+    Type: TargetTimestamp
+    NsTime: true
+  }
+  Source: Injection
+  Level: Info
+  Text: "Loaded CUPTI library: C:\\Program Files\\NVIDIA Corporation\\Nsight Systems 2024.7.1\\target-windows-x64\\cupti64_126.dll"
+  GlobalProcess: 281923733684224
+}
+
+Type: 49
+DiagnosticEvent_ {
+  Timestamp {
+    Time: 820502241
+    Type: TargetTimestamp
+    NsTime: true
+  }
+  Source: Injection
+  Level: Info
+  Text: "Enabling trace for device graph launch"
+  GlobalProcess: 281923733684224
+}
+
+Type: 47
+TraceProcessEvent_ {
+  startNs: 828626224
+  endNs: 828626224
+  correlationId: 0
+  eventClass: 10
+  name: 34
+  returnValue: 0
+  globalTid: 281923733684224
+}
+
+Type: 47
+TraceProcessEvent_ {
+  startNs: 836418429
+  endNs: 836418429
+  correlationId: 0
+  eventClass: 10
+  name: 34
+  returnValue: 0
+  globalTid: 281923733684224
+}
+
+Type: 49
+DiagnosticEvent_ {
+  Timestamp {
+    Time: 836424361
+    Type: TargetTimestamp
+    NsTime: true
+  }
+  Source: Injection
+  Level: Info
+  Text: "CUDA injection initialized successfully."
+  GlobalProcess: 281923733684224
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 846434001
+  endNs: 846435765
+  correlationId: 0
+  eventClass: 3
+  name: 37
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 846444251
+  endNs: 846974658
+  correlationId: 0
+  eventClass: 3
+  name: 38
+  returnValue: 0
+  globalTid: 281923733688128
+  nestingLevel: 1
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 846480843
+  endNs: 846735505
+  correlationId: 0
+  eventClass: 3
+  name: 23
+  returnValue: 0
+  globalTid: 281923733684568
+  nestingLevel: 0
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 893436507
+  endNs: 893438931
+  correlationId: 1
+  eventClass: 1
+  name: 39
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 893439753
+  endNs: 893444031
+  correlationId: 1
+  eventClass: 3
+  name: 37
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 893516047
+  endNs: 893516318
+  correlationId: 118
+  eventClass: 1
+  name: 40
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 893560992
+  endNs: 1004382720
+  correlationId: 119
+  eventClass: 0
+  name: 45
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 949132150
+  endNs: 949179549
+  correlationId: 119
+  eventClass: 3
+  name: 41
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 949316459
+  endNs: 949350623
+  correlationId: 119
+  eventClass: 3
+  name: 41
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 949350773
+  endNs: 949355132
+  correlationId: 119
+  eventClass: 3
+  name: 42
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 952139915
+  endNs: 952841664
+  correlationId: 119
+  eventClass: 3
+  name: 42
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 952842195
+  endNs: 953556908
+  correlationId: 119
+  eventClass: 3
+  name: 42
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 953557399
+  endNs: 954276591
+  correlationId: 119
+  eventClass: 3
+  name: 42
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 954281350
+  endNs: 954455009
+  correlationId: 0
+  eventClass: 3
+  name: 43
+  returnValue: 0
+  globalTid: 281923733688128
+  nestingLevel: 1
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1004384112
+  endNs: 1004387789
+  correlationId: 119
+  eventClass: 3
+  name: 37
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1004391426
+  endNs: 1004438806
+  correlationId: 120
+  eventClass: 0
+  name: 45
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1004439167
+  endNs: 1004463994
+  correlationId: 121
+  eventClass: 0
+  name: 45
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1009028086
+  endNs: 1009895288
+  correlationId: 122
+  eventClass: 0
+  name: 52
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1009031342
+  endNs: 1009263201
+  correlationId: 122
+  eventClass: 103
+  name: 47
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1009070466
+  endNs: 1009242292
+  correlationId: 122
+  eventClass: 102
+  name: 46
+  returnValue: 0
+  globalTid: 281923733688128
+  cudaJIT {
+    EntryType: JIT_ENTRY_PTX_TO_CUBIN
+    OperationType: JIT_OPERATION_CACHE_LOAD
+    DeviceId: 0
+    JitOperationCorrelationId: 1
+    CacheSize: 1073741824
+    CachePath: "C:\\Users\\SBihan\\AppData\\Roaming\\NVIDIA\\ComputeCache\\a\\5\\514446f8b1bb9c"
+  }
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1009267519
+  endNs: 1009410891
+  correlationId: 122
+  eventClass: 103
+  name: 47
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1009415009
+  endNs: 1009442350
+  correlationId: 122
+  eventClass: 103
+  name: 49
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 79
+CudaEvent_ {
+  startNs: 1009895594
+  endNs: 1009898890
+  correlationId: 122
+  deviceId: 0
+  contextId: 1
+  streamId: 7
+  eventClass: 3
+  globalPid: 281923733684224
+  greenContextId: 0
+  kernel {
+    demangledName: 50
+    shortName: 51
+    mangledName: 48
+    eventCategory: 50
+    gridX: 64
+    gridY: 1
+    gridZ: 1
+    blockX: 1024
+    blockY: 1
+    blockZ: 1
+    staticSharedMemory: 0
+    dynamicSharedMemory: 0
+    localMemoryPerThread: 0
+    localMemoryTotal: 21233664
+    gridId: 1
+    registersPerThread: 16
+    sharedMemoryExecuted: 8192
+    cacheConfig: 1
+    launched: 1
+    sharedMemoryConfig: 0
+    sharedMemoryLimitConfig: 0
+    clusterX: 0
+    clusterY: 0
+    clusterZ: 0
+    maxPotentialClusterSize: 0
+    maxActiveClusters: 0
+  }
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1009895979
+  endNs: 1009904335
+  correlationId: 123
+  eventClass: 0
+  name: 53
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 106
+CudaEvent_ {
+  startNs: 1009898083
+  endNs: 1009904125
+  correlationId: 123
+  deviceId: 0
+  contextId: 1
+  streamId: 4294967295
+  eventClass: 5
+  globalPid: 281923733684224
+  sync {
+    eventId: 4294967295
+    syncType: 0
+  }
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1015418076
+  endNs: 1015466117
+  correlationId: 124
+  eventClass: 0
+  name: 54
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1015466548
+  endNs: 1015501714
+  correlationId: 125
+  eventClass: 0
+  name: 54
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1015501814
+  endNs: 1015742691
+  correlationId: 126
+  eventClass: 0
+  name: 54
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1015766786
+  endNs: 1015783909
+  correlationId: 127
+  eventClass: 1
+  name: 55
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1015789890
+  endNs: 1015794549
+  correlationId: 128
+  eventClass: 3
+  name: 42
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1015794980
+  endNs: 1015837600
+  correlationId: 128
+  eventClass: 3
+  name: 56
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1015837741
+  endNs: 1015858710
+  correlationId: 128
+  eventClass: 3
+  name: 56
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1036952643
+  endNs: 1052365298
+  correlationId: 0
+  eventClass: 3
+  name: 57
+  returnValue: 0
+  globalTid: 281923733688128
+  nestingLevel: 1
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1051872354
+  endNs: 1052037096
+  correlationId: 0
+  eventClass: 3
+  name: 37
+  returnValue: 0
+  globalTid: 281923733697128
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1051873546
+  endNs: 1052036825
+  correlationId: 0
+  eventClass: 3
+  name: 44
+  returnValue: 0
+  globalTid: 281923733697128
+  nestingLevel: 0
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1051875079
+  endNs: 1052028480
+  correlationId: 0
+  eventClass: 3
+  name: 23
+  returnValue: 0
+  globalTid: 281923733697128
+  nestingLevel: 0
+}
+
+Type: 47
+TraceProcessEvent_ {
+  startNs: 1052370357
+  endNs: 1052370357
+  correlationId: 0
+  eventClass: 11
+  name: 58
+  returnValue: 0
+  globalTid: 281923733684224
+}
+
+Type: 49
+DiagnosticEvent_ {
+  Timestamp {
+    Time: 1052372832
+    Type: TargetTimestamp
+    NsTime: true
+  }
+  Source: Injection
+  Level: Info
+  Text: "Number of CUPTI events produced: \t91, CUPTI buffers: 20."
+  GlobalProcess: 281923733684224
+}
+
+Type: 47
+TraceProcessEvent_ {
+  startNs: 1052378853
+  endNs: 1052378853
+  correlationId: 0
+  eventClass: 7
+  name: 59
+  returnValue: 0
+  globalTid: 281923733684224
+}
+
+Type: 47
+TraceProcessEvent_ {
+  startNs: 1052384684
+  endNs: 1052384684
+  correlationId: 0
+  eventClass: 9
+  name: 62
+  returnValue: 0
+  globalTid: 281923733684224
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1052386398
+  endNs: 1067622675
+  correlationId: 0
+  eventClass: 3
+  name: 63
+  returnValue: 0
+  globalTid: 281923733688128
+  nestingLevel: 1
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1052391898
+  endNs: 1052395685
+  correlationId: 129
+  eventClass: 1
+  name: 61
+  returnValue: 709
+  globalTid: 281923733688128
+}
+
+Type: 106
+CudaEvent_ {
+  startNs: 1052392168
+  endNs: 1052395505
+  correlationId: 129
+  deviceId: 0
+  contextId: 0
+  streamId: 4294967295
+  eventClass: 5
+  globalPid: 281923733684224
+  sync {
+    eventId: 4294967295
+    syncType: 0
+  }
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1052393170
+  endNs: 1052394884
+  correlationId: 129
+  eventClass: 3
+  name: 37
+  returnValue: 0
+  globalTid: 281923733688128
+}
+
+Type: 47
+TraceProcessEvent_ {
+  startNs: 1067623777
+  endNs: 1067623777
+  correlationId: 0
+  eventClass: 11
+  name: 58
+  returnValue: 0
+  globalTid: 281923733684224
+}
+
+Type: 49
+DiagnosticEvent_ {
+  Timestamp {
+    Time: 1067625280
+    Type: TargetTimestamp
+    NsTime: true
+  }
+  Source: Injection
+  Level: Info
+  Text: "Number of CUPTI events produced: \t94, CUPTI buffers: 20."
+  GlobalProcess: 281923733684224
+}
+
+Type: 49
+DiagnosticEvent_ {
+  Timestamp {
+    Time: 5038423100
+    Type: TargetTimestamp
+    NsTime: true
+  }
+  Source: Analysis
+  Level: Info
+  Text: "Profiling has stopped."
+  GlobalProcess: 18302628885633695744
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 416705218
+  endNs: 416705218
+  correlationId: 0
+  eventClass: 31
+  name: 28
+  returnValue: 0
+  globalTid: 281923733684224
+}
+
+Type: 48
+TraceProcessEvent_ {
+  startNs: 1052383432
+  endNs: 1052383432
+  correlationId: 0
+  eventClass: 32
+  name: 60
+  returnValue: 0
+  globalTid: 281923733684224
+}
+
+data {
+  name_idx: 36
+  priority: 10
+  global_tid: 281923733684568
+}
+data {
+  name_idx: 31
+  priority: 10
+  global_tid: 281923733702692
+}
+data {
+  name_idx: 31
+  priority: 10
+  global_tid: 281923733704832
+}
+data {
+  name_idx: 25
+  priority: 10
+  global_tid: 281923733707888
+}
+data {
+  name_idx: 29
+  priority: 10
+  global_tid: 281923733708520
+}
+

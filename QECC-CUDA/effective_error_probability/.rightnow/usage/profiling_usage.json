@@ -1,0 +1,16 @@
+{
+  "currentMonth": "2025-11",
+  "count": 1,
+  "lastReset": 1763688432692,
+  "pendingSync": [
+    {
+      "type": "profiling",
+      "timestamp": 1763688566144,
+      "kernelName": "CZ_dm",
+      "workspacePath": "file:///d%3A/QEC_Codes/QECC-CUDA/effective_error_probability/src",
+      "syncStatus": "synced",
+      "retryCount": 0
+    }
+  ],
+  "history": []
+}
