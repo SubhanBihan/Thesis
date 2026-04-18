@@ -33,21 +33,7 @@ void NoisyPauli::NCZ_r(std::vector<dtype>& cArr, const int numQubits, const int 
 void NoisyPauli::TwoQubitDepolarise_r(std::vector<dtype>& cArr, const int numQubits, const int controlQubit, const int targetQubit, const dtype err) {
     const uint64_t cArrLen = (UINT64_C(1) << (numQubits - 1)) + (UINT64_C(1) << (2 * numQubits - 1));  // numQubits cannot be too high, otherwise overflow and cArrLen becomes negative!
 
-    std::vector<dtype> i1x2;
-    std::vector<dtype> i1y2;
-    std::vector<dtype> i1z2;
-    std::vector<dtype> x1x2;
-    std::vector<dtype> x1y2;
-    std::vector<dtype> x1z2;
-    std::vector<dtype> x1i2;
-    std::vector<dtype> y1x2;
-    std::vector<dtype> y1y2;
-    std::vector<dtype> y1z2;
-    std::vector<dtype> y1i2;
-    std::vector<dtype> z1x2;
-    std::vector<dtype> z1y2;
-    std::vector<dtype> z1z2;
-    std::vector<dtype> z1i2;
+    std::vector<dtype> i1x2, i1y2, i1z2, x1x2, x1y2, x1z2, x1i2, y1x2, y1y2, y1z2, y1i2, z1x2, z1y2, z1z2, z1i2;
 
     i1x2 = cArr;
     i1y2 = cArr;

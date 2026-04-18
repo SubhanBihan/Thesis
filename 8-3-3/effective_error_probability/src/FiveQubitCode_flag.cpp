@@ -199,19 +199,19 @@ void FiveQubitCode::applyCorrection_flag(const uint16_t i, const uint16_t flag, 
     for(int j = 0; j < NUMQUBITS; j++){
         switch (corrections_flag[flag * (DIM_ANCILLA - 1) + i][j])
         {
-        case 'I':
-            continue;
-        case 'X':
-            FastPauli::X_r(cArr, NUMQUBITS, j);
-            break;
-        case 'Y':
-            FastPauli::Y_r(cArr, NUMQUBITS, j);
-            break;
-        case 'Z':
-            FastPauli::Z_r(cArr, NUMQUBITS, j);
-            break;
-        default:
-            break;
+            case 'I':
+                continue;
+            case 'X':
+                FastPauli::X_r(cArr, NUMQUBITS, j);
+                break;
+            case 'Y':
+                FastPauli::Y_r(cArr, NUMQUBITS, j);
+                break;
+            case 'Z':
+                FastPauli::Z_r(cArr, NUMQUBITS, j);
+                break;
+            default:
+                break;
         }
     }
 }

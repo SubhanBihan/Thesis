@@ -193,7 +193,7 @@ public:
 
     static void S5_flag(std::vector<dtype> &cArr, const dtype err, const dtype errTeleport, const dtype ancillaFlagErr);
 
-    static void S6_flag(std::vector<dtype> &cArr, const dtype err, const dtype errTeleport, const dtype ancillaFlagErr);
+    // static void S6_flag(std::vector<dtype> &cArr, const dtype err, const dtype errTeleport, const dtype ancillaFlagErr);
 
     static void Sn_flag(int n, std::vector<dtype> &cArr, const dtype err, const dtype errTeleport, const dtype ancillaFlagErr);
 
@@ -208,7 +208,7 @@ public:
 
     static void S5Sequential(std::vector<dtype> &cArr, const dtype err, const dtype errTeleport);
 
-    static void S6Sequential(std::vector<dtype> &cArr, const dtype err, const dtype errTeleport);
+    // static void S6Sequential(std::vector<dtype> &cArr, const dtype err, const dtype errTeleport);
 
     static void Sn_Sequential(int n, std::vector<dtype> &cArr, const dtype err, const dtype errTeleport);
    

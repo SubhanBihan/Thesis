@@ -30,6 +30,12 @@ void NoisyPauli::NCZ_r(std::vector<dtype>& cArr, const int numQubits, const int 
     NoisyPauli::TwoQubitDepolarise_r(cArr, numQubits, controlQubit, targetQubit, err);
 }
 
+void NoisyPauli::NCY_r(std::vector<dtype>& cArr, const int numQubits, const int controlQubit, const int targetQubit, const dtype err) {
+    FastPauli::CY_r(cArr, numQubits, controlQubit, targetQubit);
+
+    NoisyPauli::TwoQubitDepolarise_r(cArr, numQubits, controlQubit, targetQubit, err);
+}
+
 void NoisyPauli::TwoQubitDepolarise_r(std::vector<dtype>& cArr, const int numQubits, const int controlQubit, const int targetQubit, const dtype err) {
     const uint64_t cArrLen = (UINT64_C(1) << (numQubits - 1)) + (UINT64_C(1) << (2 * numQubits - 1));  // numQubits cannot be too high, otherwise overflow and cArrLen becomes negative!
 

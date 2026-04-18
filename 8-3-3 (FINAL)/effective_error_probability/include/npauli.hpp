@@ -11,6 +11,7 @@ class NoisyPauli {
     static void TwoQubitDepolarise_r(std::vector<dtype>& cArr, const int numQubits, const int controlQubit, const int targetQubit, const dtype err);  // Two-qubit depolarising channel.
     static void NCX_r(std::vector<dtype>& cArr, const int numQubits, const int controlQubit, const int targetQubit, const dtype err);  // Two-qubit depolarising channel.
     static void NCZ_r(std::vector<dtype>& cArr, const int numQubits, const int controlQubit, const int targetQubit, const dtype err);  // Two-qubit depolarising channel.
+    static void NCY_r(std::vector<dtype>& cArr, const int numQubits, const int controlQubit, const int targetQubit, const dtype err);  // Two-qubit depolarising channel.
 };
 
 #endif

@@ -13,7 +13,7 @@
 #define NUM_ANCILLA 5
 #define DIM_ANCILLA 32
 
-#define NUMPOINTS 10000
+#define NUMPOINTS 100
 #define MAX_DIST 10000      // In km
 // #define NUMTHREADS 16
 

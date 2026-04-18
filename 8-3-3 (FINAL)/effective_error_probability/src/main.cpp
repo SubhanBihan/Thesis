@@ -54,9 +54,9 @@ int main(int argc, char *argv[])
 
     try
     {
-        corrections = readLinesFromFile("corrections.txt");                 // Import regular corrections file
-        corrections_erasure = readLinesFromFile("corrections_erasure.txt"); // Import erasure corrections file
-        corrections_flag = readLinesFromFile("corrections_flag.txt");       // Import flag corrections file
+        corrections = readLinesFromFile("../corrections.txt");                 // Import regular corrections file
+        corrections_erasure = readLinesFromFile("../corrections_erasure.txt"); // Import erasure corrections file
+        corrections_flag = readLinesFromFile("../corrections_flag.txt");       // Import flag corrections file
     }
     catch (const std::exception &e)
     {
@@ -108,9 +108,9 @@ int main(int argc, char *argv[])
 
     // PRELIMS DONE
 
-    ketH1P = {num, num};
-    ketH1N = {num, -num};
-    ketH = {ketH1P, ketH1N};
+    // ketH1P = {num, num};
+    // ketH1N = {num, -num};
+    // ketH = {ketH1P, ketH1N};
     // unsigned NUMTHREADS = omp_get_max_threads();
     FastPauli::ketToCArr(cArrH1P, ketH1P, 1);
 
@@ -127,8 +127,8 @@ int main(int argc, char *argv[])
     std::vector<dtype> logicalKet = QEC::getLogicalKet(theta);
     std::vector<dtype> tempcArrCodeword(FastPauli::CArrLen<NUMQUBITS>, 0.0);
 
-    std::cout << "fidelity = " << FastPauli::fidel_r(logicalKet, logicalcArr, NUMQUBITS) << std::endl;
-    std::cout << "trace = " << FastPauli::trace_r(logicalcArr, NUMQUBITS) << std::endl;
+    std::cout << "Initial fidelity = " << FastPauli::fidel_r(logicalKet, logicalcArr, NUMQUBITS) << std::endl;
+    std::cout << "Initial trace = " << FastPauli::trace_r(logicalcArr, NUMQUBITS) << std::endl;
 
     std::vector<dtype> correctedcArr(FastPauli::CArrLen<NUMQUBITS>, 0.0);
     dtype etrans;

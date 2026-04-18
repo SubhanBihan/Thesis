@@ -80,26 +80,26 @@ void QEC::S6_flag(std::vector<dtype>& cArr, const dtype err, const dtype errTele
 void QEC::Sn_flag(int n, std::vector<dtype>& cArr, const dtype err, const dtype errTeleport, const dtype ancillaFlagErr){
     switch (n)
     {
-    case 1:
-        QEC::S1_flag(cArr, err, errTeleport, ancillaFlagErr);
-        break;
-    case 2:
-        QEC::S2_flag(cArr, err, errTeleport, ancillaFlagErr);
-        break;
-    case 3:
-        QEC::S3_flag(cArr, err, errTeleport, ancillaFlagErr);
-        break;
-    case 4:
-        QEC::S4_flag(cArr, err, errTeleport, ancillaFlagErr);
-        break;
-    case 5:
-        QEC::S5_flag(cArr, err, errTeleport, ancillaFlagErr);
-        break;
-    case 6:
-        QEC::S6_flag(cArr, err, errTeleport, ancillaFlagErr);
-        break;
-    default:
-        break;
+        case 1:
+            QEC::S1_flag(cArr, err, errTeleport, ancillaFlagErr);
+            break;
+        case 2:
+            QEC::S2_flag(cArr, err, errTeleport, ancillaFlagErr);
+            break;
+        case 3:
+            QEC::S3_flag(cArr, err, errTeleport, ancillaFlagErr);
+            break;
+        case 4:
+            QEC::S4_flag(cArr, err, errTeleport, ancillaFlagErr);
+            break;
+        case 5:
+            QEC::S5_flag(cArr, err, errTeleport, ancillaFlagErr);
+            break;
+        case 6:
+            QEC::S6_flag(cArr, err, errTeleport, ancillaFlagErr);
+            break;
+        default:
+            break;
     }
 }
 
@@ -166,8 +166,10 @@ std::vector<dtype> QEC::OneRoundSequential_flag(const std::vector<dtype> &logica
         cArrN[2] = QEC::OneRoundSequential(cArrN[2], err, errTeleport, QEC::correctionMode::noLossW2, ancilla - 1);
         // std::cout << "7" << std::endl;
 
-        std::transform(result.begin(), result.end(), cArrN[1].begin(), result.begin(), std::plus<dtype>());
-        std::transform(result.begin(), result.end(), cArrN[2].begin(), result.begin(), std::plus<dtype>());
+        // std::transform(result.begin(), result.end(), cArrN[1].begin(), result.begin(), std::plus<dtype>());
+        // std::transform(result.begin(), result.end(), cArrN[2].begin(), result.begin(), std::plus<dtype>());
+        for (size_t i = 0; i < result.size(); ++i)
+            result[i] += cArrN[1][i] + cArrN[2][i];
         // std::cout << "8" << std::endl;
     }
 
@@ -181,26 +183,22 @@ std::vector<dtype> QEC::OneRoundSequential_flag(const std::vector<dtype> &logica
 }
 
 void QEC::applyCorrection_flag(const uint16_t i, const uint16_t flag, std::vector<dtype>& cArr) {
-    // if(!i) return;
-    // std::string correction_i = corrections_flag[flag * (DIM_ANCILLA - 1) + i - 1];
-
-    std::string correction_i = corrections_flag[flag * (DIM_ANCILLA - 1) + i];
     for(int j = 0; j < NUMQUBITS; j++){
-        switch (correction_i[j])
+        switch (corrections_flag[flag * (DIM_ANCILLA - 1) + i][j])
         {
-        case 'I':
-            continue;
-        case 'X':
-            FastPauli::X_r(cArr, NUMQUBITS, j);
-            break;
-        case 'Y':
-            FastPauli::Y_r(cArr, NUMQUBITS, j);
-            break;
-        case 'Z':
-            FastPauli::Z_r(cArr, NUMQUBITS, j);
-            break;
-        default:
-            break;
+            case 'I':
+                continue;
+            case 'X':
+                FastPauli::X_r(cArr, NUMQUBITS, j);
+                break;
+            case 'Y':
+                FastPauli::Y_r(cArr, NUMQUBITS, j);
+                break;
+            case 'Z':
+                FastPauli::Z_r(cArr, NUMQUBITS, j);
+                break;
+            default:
+                break;
         }
     }
 }

@@ -3,7 +3,6 @@
 void FiveQubitCode::applyCorrection_1erasure(const uint16_t i, std::vector<dtype>& cArr, const int k2)
 {   
     // k2 is qubitlostindex
-    // ALSO CHECK THE INDEX ISSUE!!! - CHECKED, but need to test properly
     for(int j = 0; j < NUMQUBITS; j++){
         switch (corrections_erasure[k2 * (DIM_ANCILLA - 1) + i][j])
         {

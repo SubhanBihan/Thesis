@@ -166,7 +166,6 @@ std::vector<dtype> FiveQubitCode::OneRoundSequential(const std::vector<dtype> &c
     // Get ready |+⟩.
 
     std::vector<std::vector<dtype>> cArrN(NUM_ANCILLA + 1, std::vector<dtype>(FastPauli::CArrLen<NUMQUBITS>));
-    std::vector<dtype> cArr_Nplus1(FastPauli::CArrLen<NUMQUBITS + 1>, 0.0);
     std::vector<dtype> result(FastPauli::CArrLen<NUMQUBITS>, 0.0);
 
     // Copy cArrCodeword to cArrN[0]
@@ -185,19 +184,19 @@ void FiveQubitCode::applyCorrection(const uint16_t i, std::vector<dtype> &cArr)
     {
         switch (corrections[i][j])
         {
-        case 'I':
-            continue;
-        case 'X':
-            FastPauli::X_r(cArr, NUMQUBITS, j);
-            break;
-        case 'Y':
-            FastPauli::Y_r(cArr, NUMQUBITS, j);
-            break;
-        case 'Z':
-            FastPauli::Z_r(cArr, NUMQUBITS, j);
-            break;
-        default:
-            break;
+            case 'I':
+                continue;
+            case 'X':
+                FastPauli::X_r(cArr, NUMQUBITS, j);
+                break;
+            case 'Y':
+                FastPauli::Y_r(cArr, NUMQUBITS, j);
+                break;
+            case 'Z':
+                FastPauli::Z_r(cArr, NUMQUBITS, j);
+                break;
+            default:
+                break;
         }
     }
 }

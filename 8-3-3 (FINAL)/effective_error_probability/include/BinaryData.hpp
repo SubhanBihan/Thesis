@@ -66,25 +66,25 @@ namespace BinaryData
             const dtype zeta = std::sqrt((NUMQUBITS - 1) * fidelity1 - (NUMQUBITS - 2) * (fidelity0 * fidelity0));
             switch (c)
             {
-            case UINT64_C(1):
-                return fidelity0;
-                break;
-            case UINT64_C(2):
-                return fidelity1;
-                break;
-            default:
-                denom = std::pow(2.0, c + 1);
+                case UINT64_C(1):
+                    return fidelity0;
+                    break;
+                case UINT64_C(2):
+                    return fidelity1;
+                    break;
+                default:
+                    denom = std::pow(2.0, c + 1);
 
-                // So fidelity0 = alpha_1
-                if (!std::isnan(denom))
-                {
-                    return (std::pow(fidelity0 + zeta, c + 1) - std::pow(fidelity0 - zeta, c + 1)) / zeta / denom;
-                }
-                else
-                {
-                    return 0.0;
-                }
-                break;
+                    // So fidelity0 = alpha_1
+                    if (!std::isnan(denom))
+                    {
+                        return (std::pow(fidelity0 + zeta, c + 1) - std::pow(fidelity0 - zeta, c + 1)) / zeta / denom;
+                    }
+                    else
+                    {
+                        return 0.0;
+                    }
+                    break;
             }
         }
         void clear()

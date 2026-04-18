@@ -3,107 +3,105 @@
 #include "QEC.hpp"
 // #include <stack>
 
-std::vector<dtype> ketH1P(2);
+std::vector<dtype> ketH1P = {num, num};
 
 // Get ready |+⟩⟨+|.
 std::vector<dtype> cArrH1P(FastPauli::CArrLen<1>);
 
 // Get ready |-⟩.
-std::vector<dtype> ketH1N(2);
+std::vector<dtype> ketH1N = {num, -num};
 
-std::vector<std::vector<dtype>> ketH(2);
+std::vector<std::vector<dtype>> ketH = {ketH1P, ketH1N};
 
 // MUST BE CHANGED FOR EACH QECC
 void QEC::S1Sequential(std::vector<dtype> &cArr, const dtype err, const dtype errTeleport)
 {
-    // IIIXXXX
-    constexpr int numQubits = NUMQUBITS + 1;
-    const int first_qubit = 1;
-    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 3, err);
-    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 4, errTeleport);
-    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 5, errTeleport);
-    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 6, errTeleport);
+    // XIXIZYZY
+    static constexpr int numQubits = NUMQUBITS + 1;
+    static const int first_qubit = 1;
+	NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit, errTeleport);
+    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 2, errTeleport);
+    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 4, errTeleport);
+    NoisyPauli::NCY_r(cArr, numQubits, 0, first_qubit + 5, err);
+    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 6, err);
+	NoisyPauli::NCY_r(cArr, numQubits, 0, first_qubit + 7, errTeleport);
 }
 
 void QEC::S2Sequential(std::vector<dtype> &cArr, const dtype err, const dtype errTeleport)
 {
-    // IXXIIXX
-    constexpr int numQubits = NUMQUBITS + 1;
-    const int first_qubit = 1;
-    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 1, err);
-    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 2, errTeleport);
-    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 5, errTeleport);
-    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 6, errTeleport);
+    // ZYIXZYIX
+    static constexpr int numQubits = NUMQUBITS + 1;
+    static const int first_qubit = 1;
+	NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit, err);
+    NoisyPauli::NCY_r(cArr, numQubits, 0, first_qubit + 1, err);
+    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 3, errTeleport);
+    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 4, errTeleport);
+    NoisyPauli::NCY_r(cArr, numQubits, 0, first_qubit + 5, errTeleport);
+	NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 7, errTeleport);
 }
 
 void QEC::S3Sequential(std::vector<dtype> &cArr, const dtype err, const dtype errTeleport)
 {
-    // XIXIXIX
-    constexpr int numQubits = NUMQUBITS + 1;
-    const int first_qubit = 1;
-    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit, errTeleport);
-    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 2, err);
-    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 4, errTeleport);
-    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 6, errTeleport);
+    // IXIXYZYZ
+    static constexpr int numQubits = NUMQUBITS + 1;
+    static const int first_qubit = 1;
+    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 1, errTeleport);
+    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 3, err);
+    NoisyPauli::NCY_r(cArr, numQubits, 0, first_qubit + 4, err);
+    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 5, errTeleport);
+    NoisyPauli::NCY_r(cArr, numQubits, 0, first_qubit + 6, errTeleport);
+	NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 7, errTeleport);
 }
 
 void QEC::S4Sequential(std::vector<dtype> &cArr, const dtype err, const dtype errTeleport)
 {
-    // IIIZZZZ
-    constexpr int numQubits = NUMQUBITS + 1;
-    const int first_qubit = 1;
-    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 3, errTeleport);
-    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 4, err);
-    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 5, errTeleport);
-    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 6, errTeleport);
+    // IXZYIXZY
+    static constexpr int numQubits = NUMQUBITS + 1;
+    static const int first_qubit = 1;
+    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 1, errTeleport);
+    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 2, errTeleport);
+    NoisyPauli::NCY_r(cArr, numQubits, 0, first_qubit + 3, errTeleport);
+	NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 5, errTeleport);
+    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 6, err);
+    NoisyPauli::NCY_r(cArr, numQubits, 0, first_qubit + 7, err);
+;
 }
 
 void QEC::S5Sequential(std::vector<dtype> &cArr, const dtype err, const dtype errTeleport)
 {
-    // IZZIIZZ
-    constexpr int numQubits = NUMQUBITS + 1;
-    const int first_qubit = 1;
-    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 1, errTeleport);
-    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 2, errTeleport);
-    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 5, err);
-    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 6, errTeleport);
+    // IYXZXZIY
+    static constexpr int numQubits = NUMQUBITS + 1;
+    static const int first_qubit = 1;
+    NoisyPauli::NCY_r(cArr, numQubits, 0, first_qubit + 1, errTeleport);
+    NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 2, err);
+    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 3, err);
+	NoisyPauli::NCX_r(cArr, numQubits, 0, first_qubit + 4, errTeleport);
+    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 5, errTeleport);
+    NoisyPauli::NCY_r(cArr, numQubits, 0, first_qubit + 7, errTeleport);
 }
 
-void QEC::S6Sequential(std::vector<dtype> &cArr, const dtype err, const dtype errTeleport)
-{
-    // ZIZIZIZ
-    constexpr int numQubits = NUMQUBITS + 1;
-    const int first_qubit = 1;
-    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit, errTeleport);
-    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 2, errTeleport);
-    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 4, errTeleport);
-    NoisyPauli::NCZ_r(cArr, numQubits, 0, first_qubit + 6, err);
-}
 
 void QEC::Sn_Sequential(int n, std::vector<dtype> &cArr, const dtype err, const dtype errTeleport)
 {
     switch (n)
     {
-    case 1:
-        QEC::S1Sequential(cArr, err, errTeleport);
-        break;
-    case 2:
-        QEC::S2Sequential(cArr, err, errTeleport);
-        break;
-    case 3:
-        QEC::S3Sequential(cArr, err, errTeleport);
-        break;
-    case 4:
-        QEC::S4Sequential(cArr, err, errTeleport);
-        break;
-    case 5:
-        QEC::S5Sequential(cArr, err, errTeleport);
-        break;
-    case 6:
-        QEC::S6Sequential(cArr, err, errTeleport);
-        break;
-    default:
-        break;
+        case 1:
+            QEC::S1Sequential(cArr, err, errTeleport);
+            break;
+        case 2:
+            QEC::S2Sequential(cArr, err, errTeleport);
+            break;
+        case 3:
+            QEC::S3Sequential(cArr, err, errTeleport);
+            break;
+        case 4:
+            QEC::S4Sequential(cArr, err, errTeleport);
+            break;
+        case 5:
+            QEC::S5Sequential(cArr, err, errTeleport);
+            break;
+        default:
+            break;
     }
 }
 
@@ -123,15 +121,15 @@ void QEC::ORS_NestedLoops(int ancilla, int &corr_ind, std::vector<std::vector<dt
             if(corr_ind)
                 switch (correctionMode)
                 {
-                case QEC::correctionMode::noLossW1:
-                    QEC::applyCorrection(corr_ind - 1, cArrN[NUM_ANCILLA]);
-                    break;
-                case QEC::correctionMode::oneLoss:
-                    QEC::applyCorrection_1erasure(corr_ind - 1, cArrN[NUM_ANCILLA], qblost_or_flag);
-                    break;
-                case QEC::correctionMode::noLossW2:
-                    QEC::applyCorrection_flag(corr_ind - 1, qblost_or_flag, cArrN[NUM_ANCILLA]);
-                    break;
+                    case QEC::correctionMode::noLossW1:
+                        QEC::applyCorrection(corr_ind - 1, cArrN[NUM_ANCILLA]);
+                        break;
+                    case QEC::correctionMode::oneLoss:
+                        QEC::applyCorrection_1erasure(corr_ind - 1, cArrN[NUM_ANCILLA], qblost_or_flag);
+                        break;
+                    case QEC::correctionMode::noLossW2:
+                        QEC::applyCorrection_flag(corr_ind - 1, qblost_or_flag, cArrN[NUM_ANCILLA]);
+                        break;
                 }
 
             std::transform(result.begin(), result.end(), cArrN[NUM_ANCILLA].begin(), result.begin(), std::plus<dtype>());
@@ -220,29 +218,23 @@ std::vector<dtype> QEC::OneRoundSequential(const std::vector<dtype> &cArrCodewor
 
 void QEC::applyCorrection(const uint16_t i, std::vector<dtype> &cArr)
 {
-    // if (!i)
-    //     return;
-        
-    // std::string correction_i = corrections[i - 1];
-    std::string correction_i = corrections[i];
-
     for (int j = 0; j < NUMQUBITS; j++)
     {
-        switch (correction_i[j])
+        switch (corrections[i][j])
         {
-        case 'I':
-            continue;
-        case 'X':
-            FastPauli::X_r(cArr, NUMQUBITS, j);
-            break;
-        case 'Y':
-            FastPauli::Y_r(cArr, NUMQUBITS, j);
-            break;
-        case 'Z':
-            FastPauli::Z_r(cArr, NUMQUBITS, j);
-            break;
-        default:
-            break;
+            case 'I':
+                continue;
+            case 'X':
+                FastPauli::X_r(cArr, NUMQUBITS, j);
+                break;
+            case 'Y':
+                FastPauli::Y_r(cArr, NUMQUBITS, j);
+                break;
+            case 'Z':
+                FastPauli::Z_r(cArr, NUMQUBITS, j);
+                break;
+            default:
+                break;
         }
     }
 }
@@ -253,26 +245,21 @@ void QEC::applyAncillaKet(std::vector<dtype> &out_cArr, const int numAncillaQubi
     const int nA = 1 << numAncillaQubits;
     const int nQ = 1 << numQubits;
     const int n = 1 << (numQubits + numAncillaQubits);
-    int cIndex, cIndex2, cIndex3, cIndex4;
-    dtype sum;
+
     for (int p = 0; p < nQ; p++)
     {
         for (int q = p; q < nQ; q++)
         {
-            cIndex = FastPauli::getRow(p, q, nQ);
-            sum = 0;
+            dtype sum = 0;
             for (int i = 0; i < nA; i++)
             {
-                cIndex2 = FastPauli::getRow(i * nQ + p, i * nQ + q, n);
-                sum += in_cArr[cIndex2] * ancillaKet[i] * ancillaKet[i];
+                sum += in_cArr[FastPauli::getRow(i * nQ + p, i * nQ + q, n)] * ancillaKet[i] * ancillaKet[i];
                 for (int j = i + 1; j < nA; j++)
                 {
-                    cIndex3 = FastPauli::getRow(i * nQ + p, j * nQ + q, n);
-                    cIndex4 = FastPauli::getRow(i * nQ + q, j * nQ + p, n);
-                    sum += (in_cArr[cIndex3] + in_cArr[cIndex4]) * ancillaKet[i] * ancillaKet[j];
+                    sum += (in_cArr[FastPauli::getRow(i * nQ + p, j * nQ + q, n)] + in_cArr[FastPauli::getRow(i * nQ + q, j * nQ + p, n)]) * ancillaKet[i] * ancillaKet[j];
                 }
             }
-            out_cArr[cIndex] = sum;
+            out_cArr[FastPauli::getRow(p, q, nQ)] = sum;
         }
     }
 }
